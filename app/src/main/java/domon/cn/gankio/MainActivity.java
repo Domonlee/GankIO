@@ -14,7 +14,6 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
@@ -50,19 +49,22 @@ public class MainActivity extends AppCompatActivity {
 
         PrimaryDrawerItem itemHome = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.ic_launcher)
-                .withName("Home");
+                .withName("首页");
         PrimaryDrawerItem item2 = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.ic_launcher)
-                .withName("second");
+                .withName("分类");
+        PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
+                .withIcon(R.mipmap.ic_launcher)
+                .withName("关于");
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.mipmap.ic_launcher)
+                .withHeaderBackground(R.color.colorAccent)
                 .addProfiles(profileDrawerItem)
                 .withOnAccountHeaderItemLongClickListener(new AccountHeader.OnAccountHeaderItemLongClickListener() {
                     @Override
                     public boolean onProfileLongClick(View view, IProfile profile, boolean current) {
-                        return false;
+                        return true;
                     }
                 }).build();
 
@@ -72,10 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 .withAccountHeader(accountHeader)
                 .addDrawerItems(
                         itemHome,
-                        new DividerDrawerItem(),
                         item2,
-                        new SecondaryDrawerItem().withName("hello")
-                                .withIcon(R.mipmap.ic_launcher)
+                        new DividerDrawerItem(),
+                        itemAbout
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
