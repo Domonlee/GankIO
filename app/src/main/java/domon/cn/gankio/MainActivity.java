@@ -16,9 +16,14 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.socks.library.KLog;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import domon.cn.gankio.network.BaseCallback;
+import domon.cn.gankio.network.OkHttpHelper;
 
 public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
@@ -40,6 +45,35 @@ public class MainActivity extends AppCompatActivity {
         setUpDrawer();
 
         getSupportActionBar().setTitle("Hello World");
+
+        initRequest();
+    }
+
+    private void initRequest() {
+        OkHttpHelper httpHelper = OkHttpHelper.getInstance();
+        String url = "http://www.baidu.com";
+        httpHelper.get(url, new BaseCallback<String>() {
+            @Override
+            public void onRequestBefore() {
+                KLog.e("Before");
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                KLog.e("Failure");
+            }
+
+            @Override
+            public void onError(Response response, int errorCode, Exception e) {
+                KLog.e("Error");
+            }
+
+            @Override
+            public void onSuccess(Response response, String s) {
+                KLog.e("OnSuccess");
+                KLog.e(s);
+            }
+        });
 
     }
 
