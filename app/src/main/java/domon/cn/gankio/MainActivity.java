@@ -22,6 +22,7 @@ import com.squareup.okhttp.Response;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import domon.cn.gankio.data.HistoryData;
 import domon.cn.gankio.network.BaseCallback;
 import domon.cn.gankio.network.OkHttpHelper;
 
@@ -51,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRequest() {
         OkHttpHelper httpHelper = OkHttpHelper.getInstance();
-        String url = "http://www.baidu.com";
-        httpHelper.get(url, new BaseCallback<String>() {
+        String url = "http://www.domon.cn";
+        url = "http://gank.io/api/history/content/2/1";
+        httpHelper.get(url, new BaseCallback<HistoryData>() {
             @Override
             public void onRequestBefore() {
                 KLog.e("Before");
@@ -69,9 +71,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSuccess(Response response, String s) {
+            public void onSuccess(Response response, HistoryData historyData) {
                 KLog.e("OnSuccess");
-                KLog.e(s);
+//                KLog.json("Json",historyData.toString());
+                KLog.w("histroyData",historyData.getResults().get(0).getContent());
+
             }
         });
 
