@@ -2,6 +2,9 @@ package domon.cn.gankio;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -20,11 +23,16 @@ import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.data.HistoryData;
 import domon.cn.gankio.network.BaseCallback;
 import domon.cn.gankio.network.OkHttpHelper;
+import domon.cn.gankio.ui.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
@@ -32,11 +40,30 @@ public class MainActivity extends AppCompatActivity {
     private Drawer mDrawer;
 
     private Context mContext;
+    private FragmentManager mFragmentManager;
+    private Fragment mCurrentFragment;
+    private static Map<String, Fragment> mFragmentList = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        mFragmentManager = getSupportFragmentManager();
+        mCurrentFragment = (Fragment) mFragmentManager.findFragmentById(R.id.frame_content);
+        if (mCurrentFragment == null) {
+            mCurrentFragment = createFragment(HomeFragment.class);
+            mFragmentManager.beginTransaction().add(R.id.frame_content, mCurrentFragment).commit();
+        }
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (savedInstanceState != null) {
+            List<Fragment> fragments = mFragmentManager.getFragments();
+            for (int i = 0; i < fragments.size(); i++) {
+                transaction.hide(fragments.get(i));
+            }
+        }
+        transaction.show(mCurrentFragment).commitAllowingStateLoss();
 
         mContext = this;
         ButterKnife.bind(this);
@@ -73,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Response response, HistoryData historyData) {
                 KLog.e("OnSuccess");
-//                KLog.json("Json",historyData.toString());
-                KLog.w("histroyData",historyData.getResults().get(0).getContent());
-
             }
         });
 
@@ -130,4 +154,33 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
+    private static Fragment creatFragment(Class<?> clazz, boolean isObtain) {
+        Fragment resultFragment = null;
+        String className = clazz.getName();
+        if (mFragmentList.containsKey(className)) {
+            resultFragment = mFragmentList.get(className);
+        } else {
+            try {
+                resultFragment = (Fragment) Class.forName(className).newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isObtain) {
+            mFragmentList.put(className, resultFragment);
+        }
+
+        return resultFragment;
+    }
+
+    private static Fragment createFragment(Class<?> clazz) {
+        return creatFragment(clazz, true);
+    }
+
 }
