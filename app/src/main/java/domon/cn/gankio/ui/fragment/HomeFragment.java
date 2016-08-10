@@ -1,26 +1,23 @@
 package domon.cn.gankio.ui.fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
-import domon.cn.gankio.data.HistoryData;
+import domon.cn.gankio.data.GankContentData;
+import domon.cn.gankio.data.GankDateData;
+import domon.cn.gankio.network.Apis;
 import domon.cn.gankio.network.BaseCallback;
 import domon.cn.gankio.network.OkHttpHelper;
 
@@ -30,7 +27,9 @@ import domon.cn.gankio.network.OkHttpHelper;
 public class HomeFragment extends Fragment {
     @Bind(R.id.home_tv)
     TextView mHomeTv;
-    private Html.ImageGetter mImageGetter;
+
+    private GankDateData mGankDateData;
+    private GankContentData mGankContentData;
 
     @Nullable
     @Override
@@ -38,23 +37,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
         setUpData();
-
-        mImageGetter = new Html.ImageGetter() {
-            @Override
-            public Drawable getDrawable(String s) {
-                Drawable drawable = null;
-                try {
-                    URL url = new URL(s);
-                    drawable = Drawable.createFromStream(url.openStream(),"");
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                return drawable;
-            }
-        };
 
         return view;
     }
@@ -68,8 +50,7 @@ public class HomeFragment extends Fragment {
     private void setUpData() {
 
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
-        String url = "http://gank.io/api/history/content/2/1";
-        okHttpHelper.get(url, new BaseCallback<HistoryData>() {
+        okHttpHelper.get(Apis.GanHuoDates, new BaseCallback<GankDateData>() {
             @Override
             public void onRequestBefore() {
 
@@ -86,9 +67,44 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onSuccess(Response response, HistoryData historyData) {
-                mHomeTv.setText(Html.fromHtml(historyData.getResults().get(0).getContent(),
-                        mImageGetter, null));
+            public void onSuccess(Response response, GankDateData gankDateData) {
+                for (int i = 0; i < gankDateData.getResults().size(); i++) {
+                    gankDateData.getResults().get(i).replace("-", "/");
+                }
+                mGankDateData = gankDateData;
+                KLog.w();
+                getContentData();
+            }
+        });
+    }
+
+    private void getContentData() {
+        OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
+
+        okHttpHelper.get(Apis.GanHuoDataByDay + mGankDateData.getResults().get(0), new BaseCallback<GankContentData>() {
+            @Override
+            public void onRequestBefore() {
+                KLog.w();
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onError(Response response, int errorCode, Exception e) {
+
+            }
+
+            @Override
+            public void onSuccess(Response response, GankContentData gankContentData) {
+                // FIXME: 16-8-10 mGankContentData is null.
+                mGankContentData = gankContentData;
+                KLog.w();
+
+                mHomeTv.setText(mGankContentData.getResults().getAndroid().get(1).getDesc());
             }
         });
     }

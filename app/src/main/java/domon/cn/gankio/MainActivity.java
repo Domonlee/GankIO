@@ -19,9 +19,6 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.socks.library.KLog;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +26,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import domon.cn.gankio.data.HistoryData;
-import domon.cn.gankio.network.BaseCallback;
-import domon.cn.gankio.network.OkHttpHelper;
 import domon.cn.gankio.ui.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,35 +67,6 @@ public class MainActivity extends AppCompatActivity {
         setUpDrawer();
 
         getSupportActionBar().setTitle("Hello World");
-
-        initRequest();
-    }
-
-    private void initRequest() {
-        OkHttpHelper httpHelper = OkHttpHelper.getInstance();
-        String url = "http://www.domon.cn";
-        url = "http://gank.io/api/history/content/2/1";
-        httpHelper.get(url, new BaseCallback<HistoryData>() {
-            @Override
-            public void onRequestBefore() {
-                KLog.e("Before");
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                KLog.e("Failure");
-            }
-
-            @Override
-            public void onError(Response response, int errorCode, Exception e) {
-                KLog.e("Error");
-            }
-
-            @Override
-            public void onSuccess(Response response, HistoryData historyData) {
-                KLog.e("OnSuccess");
-            }
-        });
 
     }
 
