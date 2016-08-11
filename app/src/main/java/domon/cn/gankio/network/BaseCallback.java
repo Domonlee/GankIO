@@ -7,6 +7,8 @@ import com.squareup.okhttp.Response;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import domon.cn.gankio.data.GankContentData;
+
 /**
  * Created by Domon on 16-8-9.
  */
