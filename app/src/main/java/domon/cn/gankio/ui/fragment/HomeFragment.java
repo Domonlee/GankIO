@@ -4,16 +4,15 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.data.GankContentData;
-import domon.cn.gankio.data.GankDateData;
 import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.presenter.impl.HomePresenterImpl;
 import domon.cn.gankio.view.IHomeView;
@@ -22,11 +21,9 @@ import domon.cn.gankio.view.IHomeView;
  * Created by Domon on 16-8-10.
  */
 public class HomeFragment extends Fragment implements IHomeView {
-    @Bind(R.id.home_tv)
-    TextView mHomeTv;
+    @Bind(R.id.home_rv)
+    RecyclerView mRecyclerView;
 
-    private GankDateData mGankDateData;
-    private GankContentData mGankContentData;
     private IHomePresenter iHomePresenter;
     private ProgressDialog mPorgressDialog;
 
@@ -52,13 +49,14 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     @Override
     public void getToadyGank() {
-        // TODO: 16-8-11 data is null
         iHomePresenter.reqHomeGankData();
     }
 
     @Override
     public void setData(GankContentData data) {
-        mHomeTv.setText(data.toString());
+        // TODO: 16-8-11 add dat
+
+
     }
 
     @Override
