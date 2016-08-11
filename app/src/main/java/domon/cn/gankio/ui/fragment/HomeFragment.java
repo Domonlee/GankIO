@@ -1,5 +1,6 @@
 package domon.cn.gankio.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.socks.library.KLog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,16 +28,18 @@ public class HomeFragment extends Fragment implements IHomeView {
     private GankDateData mGankDateData;
     private GankContentData mGankContentData;
     private IHomePresenter iHomePresenter;
+    private ProgressDialog mPorgressDialog;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-//        setUpData();
-//        getContentData();
 
         iHomePresenter = new HomePresenterImpl(this);
+
+        mPorgressDialog = new ProgressDialog(getContext());
+        getToadyGank();
 
         return view;
     }
@@ -49,69 +50,24 @@ public class HomeFragment extends Fragment implements IHomeView {
         ButterKnife.unbind(this);
     }
 
-    //    private void setUpData() {
-//
-//        OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
-//        okHttpHelper.get(Apis.GanHuoDates, new BaseCallback<GankDateData>() {
-//            @Override
-//            public void onRequestBefore() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Request request, Exception e) {
-//
-//            }
-//
-//            @Override
-//            public void onError(Response response, int errorCode, Exception e) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(Response response, GankDateData gankDateData) {
-//                for (int i = 0; i < gankDateData.getResults().size(); i++) {
-//                    gankDateData.getResults().get(i).replace("-", "/");
-//                }
-//                mGankDateData = gankDateData;
-//                KLog.w();
-//            }
-//        });
-//    }
-//
-//    private void getContentData() {
-//        OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
-//
-//        okHttpHelper.get(Apis.GanHuoDataByDay + "2016/08/10", new BaseCallback<GankContentData>() {
-//            @Override
-//            public void onRequestBefore() {
-//                KLog.w();
-//            }
-//
-//            @Override
-//            public void onFailure(Request request, Exception e) {
-//
-//            }
-//
-//            @Override
-//            public void onError(Response response, int errorCode, Exception e) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(Response response, GankContentData gankContentData) {
-//                mGankContentData = gankContentData;
-//
-//                mHomeTv.setText(mGankContentData.getCategory().toString());
-//            }
-//        });
-//    }
-
     @Override
     public void getToadyGank() {
         // TODO: 16-8-11 data is null
-        GankContentData gankContentData = new GankContentData();
-        gankContentData = iHomePresenter.reqHomeGankData();
-        KLog.e(gankContentData.getCategory().toString());
+        iHomePresenter.reqHomeGankData();
+    }
+
+    @Override
+    public void setData(GankContentData data) {
+        mHomeTv.setText(data.toString());
+    }
+
+    @Override
+    public void setProgressDialogVisibility(int visibility) {
+        if (visibility == View.GONE) {
+            mPorgressDialog.dismiss();
+        } else if (visibility == View.VISIBLE) {
+            mPorgressDialog.show();
+        }
+
     }
 }

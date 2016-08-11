@@ -1,6 +1,7 @@
 package domon.cn.gankio.presenter.impl;
 
-import com.socks.library.KLog;
+import android.view.View;
+
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -25,13 +26,13 @@ public class HomePresenterImpl implements IHomePresenter {
     }
 
     @Override
-    public GankContentData reqHomeGankData() {
+    public void reqHomeGankData() {
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
 
         okHttpHelper.get(Apis.GanHuoDataByDay + "2016/08/10", new BaseCallback<GankContentData>() {
             @Override
             public void onRequestBefore() {
-                KLog.w();
+                iHomeView.setProgressDialogVisibility(View.VISIBLE);
             }
 
             @Override
@@ -47,9 +48,10 @@ public class HomePresenterImpl implements IHomePresenter {
             @Override
             public void onSuccess(Response response, GankContentData gankContentData) {
                 mGankContentData = gankContentData;
+                iHomeView.setData(mGankContentData);
+                iHomeView.setProgressDialogVisibility(View.GONE);
             }
         });
 
-        return mGankContentData;
     }
 }
