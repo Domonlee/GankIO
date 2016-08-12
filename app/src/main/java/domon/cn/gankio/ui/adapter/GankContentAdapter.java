@@ -23,4 +23,5 @@ public class GankContentAdapter extends RecyclerView.Adapter{
     public int getItemCount() {
         return 0;
     }
+
 }
