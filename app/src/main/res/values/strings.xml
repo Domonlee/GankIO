@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GankIO</string>
+    <string name="main_main">首页</string>
+    <string name="main_categroy">分类</string>
+    <string name="main_grils">福利</string>
+    <string name="main_about">关于</string>
 </resources>

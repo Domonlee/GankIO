@@ -26,6 +26,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import domon.cn.gankio.ui.fragment.GirlsFragment;
 import domon.cn.gankio.ui.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         setUpDrawer();
 
-        getSupportActionBar().setTitle("Hello World");
+        getSupportActionBar().setTitle("HelloWorld");
 
     }
 
@@ -76,13 +77,16 @@ public class MainActivity extends AppCompatActivity {
 
         PrimaryDrawerItem itemHome = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.ic_launcher)
-                .withName("首页");
+                .withName(R.string.main_main);
         PrimaryDrawerItem item2 = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.ic_launcher)
-                .withName("分类");
+                .withName(R.string.main_categroy);
+        PrimaryDrawerItem itemGirls = new PrimaryDrawerItem()
+                .withIcon(R.mipmap.ic_launcher)
+                .withName(R.string.main_grils);
         PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.ic_launcher)
-                .withName("关于");
+                .withName(R.string.main_about);
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -102,16 +106,61 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
                         itemHome,
                         item2,
+                        itemGirls,
                         new DividerDrawerItem(),
                         itemAbout
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_LONG).show();
+                        switchDrawer(position);
                         return true;
                     }
                 }).build();
+    }
+
+    private void switchDrawer(int positon) {
+
+        switchFragment(getClazzandSetTitle(positon));
+        mDrawer.closeDrawer();
+    }
+
+    private void switchFragment(Class<?> clazz) {
+        if (clazz == null) {
+            return;
+        }
+
+        Fragment to = createFragment(clazz);
+        if (to.isAdded()) {
+            mFragmentManager.beginTransaction().hide(mCurrentFragment).show(to).commitAllowingStateLoss();
+        } else {
+            mFragmentManager.beginTransaction().hide(mCurrentFragment).add(R.id.frame_content, to)
+                    .commitAllowingStateLoss();
+        }
+
+        mCurrentFragment = to;
+    }
+
+    private Class<?> getClazzandSetTitle(int positon) {
+        Class<?> clazz = null;
+
+        switch (positon) {
+            case 1:
+                mToolbar.setTitle(getResources().getString(R.string.main_main));
+                clazz = HomeFragment.class;
+                break;
+            case 2:
+                Toast.makeText(MainActivity.this, "建设中", Toast.LENGTH_SHORT).show();
+                mToolbar.setTitle(getResources().getString(R.string.main_categroy));
+                break;
+            case 3:
+                mToolbar.setTitle(getResources().getString(R.string.main_grils));
+                clazz = GirlsFragment.class;
+                break;
+            default:
+                break;
+        }
+        return clazz;
     }
 
     @Override
