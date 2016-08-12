@@ -2,6 +2,7 @@ package domon.cn.gankio.presenter.impl;
 
 import android.view.View;
 
+import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -32,6 +33,7 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
         okHttpHelper.get(Apis.GanHuoData + "福利/20/1", new BaseCallback<GankGirlsData>() {
             @Override
             public void onRequestBefore() {
+                KLog.w();
                 setProgressBarVisibility(View.VISIBLE);
             }
 
@@ -47,8 +49,9 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
 
             @Override
             public void onSuccess(Response response, GankGirlsData gankGirlsData) {
-                mIGirlsView.setData(gankGirlsData);
+                KLog.w();
                 setProgressBarVisibility(View.GONE);
+                mIGirlsView.setData(gankGirlsData);
             }
         });
 
