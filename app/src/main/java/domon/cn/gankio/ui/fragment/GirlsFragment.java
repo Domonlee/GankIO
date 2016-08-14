@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +31,13 @@ import domon.cn.gankio.view.IGirlsView;
  */
 public class GirlsFragment extends Fragment implements IGirlsView {
     @Bind(R.id.girls_rv)
-    RecyclerView mRecyclerView;
+    XRecyclerView mRecyclerView;
 
     private BaseRVAdapter<GankGirlsData.ResultsEntity> mGankGirlsAdapter;
     private ProgressDialog mProgressDialog;
     private IGirlsPresenter mGirlsPresenter;
     private List<Integer> heights;
+    private int mCurrentIndex = 1;
 
     @Nullable
     @Override
@@ -66,11 +70,11 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
     @Override
     public void getGankGirlsData() {
-        mGirlsPresenter.reqGrilsGankData();
+        mGirlsPresenter.reqGrilsGankData(mCurrentIndex);
     }
 
     @Override
-    public void setData(GankGirlsData gankGirlsData) {
+    public void setData(final GankGirlsData gankGirlsData) {
         getRandomHeight(gankGirlsData);
         mGankGirlsAdapter = new BaseRVAdapter<GankGirlsData.ResultsEntity>(gankGirlsData.getResults(), getContext()) {
             @Override
@@ -90,7 +94,22 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
         mRecyclerView.setAdapter(mGankGirlsAdapter);
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
 
+            }
+
+            @Override
+            public void onLoadMore() {
+                Toast.makeText(getActivity(), "onLoadMore "+ mCurrentIndex, Toast.LENGTH_SHORT).show();
+                mCurrentIndex ++;
+                // FIXME: 16-8-14 请求数据有问题，替换第二页
+                mGirlsPresenter.reqGrilsGankData(mCurrentIndex);
+//                getGankGirlsData();
+            }
+        });
+        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
     }
 
     private void getRandomHeight(GankGirlsData gankGirlsData) {
