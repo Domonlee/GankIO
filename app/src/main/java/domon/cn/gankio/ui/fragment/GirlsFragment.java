@@ -17,7 +17,7 @@ import domon.cn.gankio.R;
 import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.presenter.IGirlsPresenter;
 import domon.cn.gankio.presenter.impl.GirlsPresenterImpl;
-import domon.cn.gankio.ui.adapter.GankGirlsAdapter;
+import domon.cn.gankio.ui.adapter.BaseRVAdapter;
 import domon.cn.gankio.view.IGirlsView;
 
 /**
@@ -27,7 +27,7 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     @Bind(R.id.girls_rv)
     RecyclerView mRecyclerView;
 
-    private GankGirlsAdapter mGankGirlsAdapter;
+    private BaseRVAdapter<GankGirlsData.ResultsEntity> mGankGirlsAdapter;
     private ProgressDialog mProgressDialog;
     private IGirlsPresenter mGirlsPresenter;
 
@@ -67,7 +67,18 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
     @Override
     public void setData(GankGirlsData gankGirlsData) {
-        mGankGirlsAdapter = new GankGirlsAdapter(getContext(), gankGirlsData);
+        mGankGirlsAdapter = new BaseRVAdapter<GankGirlsData.ResultsEntity>(gankGirlsData.getResults(),getContext()) {
+            @Override
+            protected int getItemLayoutId(int viewType) {
+                return R.layout.item_girls;
+            }
+
+            @Override
+            protected void onBindDataToView(BaseViewHolder holder, GankGirlsData.ResultsEntity resultsEntity, int position) {
+                holder.setImageFromUrl(R.id.item_girls_iv, resultsEntity.getUrl());
+            }
+        };
+
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
         mRecyclerView.setAdapter(mGankGirlsAdapter);
 

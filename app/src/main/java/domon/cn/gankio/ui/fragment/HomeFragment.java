@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import domon.cn.gankio.R;
 import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.presenter.impl.HomePresenterImpl;
+import domon.cn.gankio.ui.adapter.GankContentAdapter;
 import domon.cn.gankio.view.IHomeView;
 
 /**
@@ -26,6 +28,8 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     private IHomePresenter iHomePresenter;
     private ProgressDialog mPorgressDialog;
+    // TODO: 16-8-14 change baseRvAdapter
+    private GankContentAdapter mGankContentAdapter;
 
     @Nullable
     @Override
@@ -37,6 +41,8 @@ public class HomeFragment extends Fragment implements IHomeView {
 
         mPorgressDialog = new ProgressDialog(getContext());
         getToadyGank();
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
     }
@@ -55,8 +61,8 @@ public class HomeFragment extends Fragment implements IHomeView {
     @Override
     public void setData(GankContentData data) {
         // TODO: 16-8-11 add dat
-
-
+        mGankContentAdapter = new GankContentAdapter(getContext(),data);
+        mRecyclerView.setAdapter(mGankContentAdapter);
     }
 
     @Override

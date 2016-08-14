@@ -29,7 +29,7 @@ public class HomePresenterImpl implements IHomePresenter {
     public void reqHomeGankData() {
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
 
-        okHttpHelper.get(Apis.GanHuoDataByDay + "2016/08/10", new BaseCallback<GankContentData>() {
+        okHttpHelper.get(Apis.GanHuoDataByDay + "2016/08/11", new BaseCallback<GankContentData>() {
             @Override
             public void onRequestBefore() {
                 iHomeView.setProgressDialogVisibility(View.VISIBLE);
