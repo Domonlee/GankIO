@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
@@ -30,6 +33,7 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     private BaseRVAdapter<GankGirlsData.ResultsEntity> mGankGirlsAdapter;
     private ProgressDialog mProgressDialog;
     private IGirlsPresenter mGirlsPresenter;
+    private List<Integer> heights;
 
     @Nullable
     @Override
@@ -67,7 +71,8 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
     @Override
     public void setData(GankGirlsData gankGirlsData) {
-        mGankGirlsAdapter = new BaseRVAdapter<GankGirlsData.ResultsEntity>(gankGirlsData.getResults(),getContext()) {
+        getRandomHeight(gankGirlsData);
+        mGankGirlsAdapter = new BaseRVAdapter<GankGirlsData.ResultsEntity>(gankGirlsData.getResults(), getContext()) {
             @Override
             protected int getItemLayoutId(int viewType) {
                 return R.layout.item_girls;
@@ -75,6 +80,10 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
             @Override
             protected void onBindDataToView(BaseViewHolder holder, GankGirlsData.ResultsEntity resultsEntity, int position) {
+                ViewGroup.LayoutParams params = holder.getView(R.id.item_girls_iv).getLayoutParams();
+                params.height = heights.get(position);
+                holder.getView(R.id.item_girls_iv).setLayoutParams(params);
+
                 holder.setImageFromUrl(R.id.item_girls_iv, resultsEntity.getUrl());
             }
         };
@@ -82,5 +91,12 @@ public class GirlsFragment extends Fragment implements IGirlsView {
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
         mRecyclerView.setAdapter(mGankGirlsAdapter);
 
+    }
+
+    private void getRandomHeight(GankGirlsData gankGirlsData) {
+        heights = new ArrayList<>();
+        for (int i = 0; i < gankGirlsData.getResults().size(); i++) {
+            heights.add((int) (200 + Math.random() * 400));
+        }
     }
 }
