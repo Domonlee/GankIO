@@ -19,8 +19,6 @@ import domon.cn.gankio.view.IGirlsView;
 // TODO: 16-8-12 添加data
 public class GirlsPresenterImpl implements IGirlsPresenter {
     private IGirlsView mIGirlsView;
-    private GankGirlsData mGankGirlsData;
-
 
     public GirlsPresenterImpl(IGirlsView iGirlsView) {
         this.mIGirlsView = iGirlsView;
@@ -49,13 +47,10 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
 
             @Override
             public void onSuccess(Response response, GankGirlsData gankGirlsData) {
-                KLog.w();
                 setProgressBarVisibility(View.GONE);
                 mIGirlsView.setData(gankGirlsData);
             }
         });
-
-
     }
 
     @Override
