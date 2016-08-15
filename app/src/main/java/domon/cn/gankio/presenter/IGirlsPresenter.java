@@ -7,4 +7,8 @@ public interface IGirlsPresenter {
     void reqGrilsGankData(int index);
 
     void setProgressBarVisibility(int visibility);
+
+    void saveGrilsGankData();
+
+    String setUrl(int index);
 }

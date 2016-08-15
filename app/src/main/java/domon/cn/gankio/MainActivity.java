@@ -44,11 +44,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mContext = this;
+        initFragments(savedInstanceState);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
+        setUpDrawer();
+        getSupportActionBar().setTitle("HelloWorld");
+    }
 
+    private void initFragments(Bundle savedInstanceState) {
         mFragmentManager = getSupportFragmentManager();
         mCurrentFragment = (Fragment) mFragmentManager.findFragmentById(R.id.frame_content);
         if (mCurrentFragment == null) {
-            mCurrentFragment = createFragment(HomeFragment.class);
+            mCurrentFragment = createFragment(GirlsFragment.class);
             mFragmentManager.beginTransaction().add(R.id.frame_content, mCurrentFragment).commit();
         }
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -59,20 +67,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         transaction.show(mCurrentFragment).commitAllowingStateLoss();
-
-        mContext = this;
-        ButterKnife.bind(this);
-
-        setSupportActionBar(mToolbar);
-
-        setUpDrawer();
-
-        getSupportActionBar().setTitle("HelloWorld");
-
     }
 
     private void setUpDrawer() {
-
         ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withName("点击登录");
 
         PrimaryDrawerItem itemHome = new PrimaryDrawerItem()

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,12 +71,15 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
     @Override
     public void getGankGirlsData() {
+        KLog.e(mCurrentIndex);
+        mGirlsPresenter.setUrl(mCurrentIndex);
         mGirlsPresenter.reqGrilsGankData(mCurrentIndex);
     }
 
     @Override
     public void setData(final GankGirlsData gankGirlsData) {
-        getRandomHeight(gankGirlsData);
+//        getRandomHeight(gankGirlsData);
+        KLog.e(gankGirlsData.getResults().size());
         mGankGirlsAdapter = new BaseRVAdapter<GankGirlsData.ResultsEntity>(gankGirlsData.getResults(), getContext()) {
             @Override
             protected int getItemLayoutId(int viewType) {
@@ -84,29 +88,35 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
             @Override
             protected void onBindDataToView(BaseViewHolder holder, GankGirlsData.ResultsEntity resultsEntity, int position) {
-                ViewGroup.LayoutParams params = holder.getView(R.id.item_girls_iv).getLayoutParams();
-                params.height = heights.get(position);
-                holder.getView(R.id.item_girls_iv).setLayoutParams(params);
+//                ViewGroup.LayoutParams params = holder.getView(R.id.item_girls_iv).getLayoutParams();
+//                params.height = heights.get(position);
+//                holder.getView(R.id.item_girls_iv).setLayoutParams(params);
 
                 holder.setImageFromUrl(R.id.item_girls_iv, resultsEntity.getUrl());
             }
+
+            @Override
+            protected void OnItemClick(int position) {
+                Toast.makeText(mContext, position, Toast.LENGTH_LONG).show();
+            }
         };
 
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.smoothScrollToPosition((mCurrentIndex - 1) * 4);
         mRecyclerView.setAdapter(mGankGirlsAdapter);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-
+                mRecyclerView.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                Toast.makeText(getActivity(), "onLoadMore "+ mCurrentIndex, Toast.LENGTH_SHORT).show();
-                mCurrentIndex ++;
-                // FIXME: 16-8-14 请求数据有问题，替换第二页
-                mGirlsPresenter.reqGrilsGankData(mCurrentIndex);
-//                getGankGirlsData();
+                Toast.makeText(getActivity(), "onLoadMore " + mCurrentIndex, Toast.LENGTH_SHORT).show();
+                mGirlsPresenter.setUrl(++mCurrentIndex);
+                getGankGirlsData();
+                mRecyclerView.loadMoreComplete();
             }
         });
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);

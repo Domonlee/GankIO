@@ -5,6 +5,7 @@ import android.view.View;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import domon.cn.gankio.data.GankGirlsData;
@@ -21,7 +22,8 @@ import domon.cn.gankio.view.IGirlsView;
 public class GirlsPresenterImpl implements IGirlsPresenter {
     private IGirlsView mIGirlsView;
     private int mLastIndex = 1;
-    private List<GankGirlsData.ResultsEntity> allGankGirlsDataLists;
+    private List<GankGirlsData.ResultsEntity> allGankGirlsDataLists = new ArrayList<>();
+    private String reqUrl;
 
     public GirlsPresenterImpl(IGirlsView iGirlsView) {
         this.mIGirlsView = iGirlsView;
@@ -32,7 +34,8 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
 
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
 
-        okHttpHelper.get(Apis.GanHuoData + "福利/20/" + index, new BaseCallback<GankGirlsData>() {
+
+        okHttpHelper.get(reqUrl, new BaseCallback<GankGirlsData>() {
             @Override
             public void onRequestBefore() {
                 setProgressBarVisibility(View.VISIBLE);
@@ -53,6 +56,7 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
                 setProgressBarVisibility(View.GONE);
                 if (index > mLastIndex) {
                     allGankGirlsDataLists.addAll(gankGirlsData.getResults());
+                    gankGirlsData.setResults(allGankGirlsDataLists);
                 } else {
                     allGankGirlsDataLists = gankGirlsData.getResults();
                 }
@@ -64,5 +68,17 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
     @Override
     public void setProgressBarVisibility(int visibility) {
         mIGirlsView.setProgressBarVisibility(visibility);
+    }
+
+    @Override
+    public void saveGrilsGankData() {
+        // TODO: 16-8-15
+
+    }
+
+    @Override
+    public String setUrl(int index) {
+        reqUrl = Apis.GanHuoData + "福利/4/" + index;
+        return reqUrl;
     }
 }
