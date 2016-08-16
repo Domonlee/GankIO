@@ -54,12 +54,12 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
             @Override
             public void onSuccess(Response response, GankGirlsData gankGirlsData) {
                 setProgressBarVisibility(View.GONE);
-                if (index > mLastIndex) {
-                    allGankGirlsDataLists.addAll(gankGirlsData.getResults());
-                    gankGirlsData.setResults(allGankGirlsDataLists);
-                } else {
-                    allGankGirlsDataLists = gankGirlsData.getResults();
-                }
+//                if (index > mLastIndex) {
+//                    allGankGirlsDataLists.addAll(gankGirlsData.getResults());
+//                    gankGirlsData.setResults(allGankGirlsDataLists);
+//                } else {
+//                    allGankGirlsDataLists = gankGirlsData.getResults();
+//                }
                 mIGirlsView.setData(gankGirlsData);
             }
         });

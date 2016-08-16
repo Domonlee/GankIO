@@ -37,8 +37,11 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     private BaseRVAdapter<GankGirlsData.ResultsEntity> mGankGirlsAdapter;
     private ProgressDialog mProgressDialog;
     private IGirlsPresenter mGirlsPresenter;
-    private List<Integer> heights;
+    private List<Integer> heights = new ArrayList<>();
     private int mCurrentIndex = 1;
+
+    private List<GankGirlsData.ResultsEntity> mTempData = new ArrayList<>();
+    private int mLastIndex = 1;
 
     @Nullable
     @Override
@@ -78,8 +81,17 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
     @Override
     public void setData(final GankGirlsData gankGirlsData) {
+
+        if (mCurrentIndex > mLastIndex) {
+            mTempData.addAll(gankGirlsData.getResults());
+            gankGirlsData.setResults(mTempData);
+        } else {
+            mTempData = gankGirlsData.getResults();
+        }
+
 //        getRandomHeight(gankGirlsData);
         KLog.e(gankGirlsData.getResults().size());
+        mRecyclerView.scrollToPosition(gankGirlsData.getResults().size());
         mGankGirlsAdapter = new BaseRVAdapter<GankGirlsData.ResultsEntity>(gankGirlsData.getResults(), getContext()) {
             @Override
             protected int getItemLayoutId(int viewType) {
@@ -88,22 +100,24 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
             @Override
             protected void onBindDataToView(BaseViewHolder holder, GankGirlsData.ResultsEntity resultsEntity, int position) {
-//                ViewGroup.LayoutParams params = holder.getView(R.id.item_girls_iv).getLayoutParams();
-//                params.height = heights.get(position);
-//                holder.getView(R.id.item_girls_iv).setLayoutParams(params);
+                if (heights.size() <= position) {
+                    heights.add((int) (100 + Math.random() * 300));
+                }
+                ViewGroup.LayoutParams params = holder.getView(R.id.item_girls_iv).getLayoutParams();
+                params.height = heights.get(position);
+                holder.getView(R.id.item_girls_iv).setLayoutParams(params);
 
                 holder.setImageFromUrl(R.id.item_girls_iv, resultsEntity.getUrl());
             }
 
             @Override
             protected void OnItemClick(int position) {
-                Toast.makeText(mContext, position, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "" + position, Toast.LENGTH_LONG).show();
             }
         };
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.smoothScrollToPosition((mCurrentIndex - 1) * 4);
         mRecyclerView.setAdapter(mGankGirlsAdapter);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -113,10 +127,12 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
             @Override
             public void onLoadMore() {
-                Toast.makeText(getActivity(), "onLoadMore " + mCurrentIndex, Toast.LENGTH_SHORT).show();
+                KLog.e();
+
                 mGirlsPresenter.setUrl(++mCurrentIndex);
                 getGankGirlsData();
                 mRecyclerView.loadMoreComplete();
+                mGankGirlsAdapter.notifyDataSetChanged();
             }
         });
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
