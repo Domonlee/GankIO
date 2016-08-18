@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +91,6 @@ public class HomeFragment extends Fragment implements IHomeView {
         }
 
         mGankContentAdapter.addAll(mGankDateDatas);
-        KLog.e();
     }
 
     @Override
