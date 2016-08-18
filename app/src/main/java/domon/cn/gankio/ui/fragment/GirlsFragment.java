@@ -13,10 +13,6 @@ import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.socks.library.KLog;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +20,7 @@ import domon.cn.gankio.R;
 import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.presenter.IGirlsPresenter;
 import domon.cn.gankio.presenter.impl.GirlsPresenterImpl;
-import domon.cn.gankio.ui.adapter.BaseRVAdapter;
+import domon.cn.gankio.ui.adapter.GankGirlsDataAdapter;
 import domon.cn.gankio.view.IGirlsView;
 
 /**
@@ -34,13 +30,10 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     @Bind(R.id.girls_rv)
     XRecyclerView mRecyclerView;
 
-    private BaseRVAdapter<GankGirlsData.ResultsEntity> mGankGirlsAdapter;
+    private GankGirlsDataAdapter mGankGirlsAdapter;
     private ProgressDialog mProgressDialog;
     private IGirlsPresenter mGirlsPresenter;
-    private List<Integer> heights = new ArrayList<>();
     private int mCurrentIndex = 1;
-
-    private List<GankGirlsData.ResultsEntity> mTempData = new ArrayList<>();
     private int mLastIndex = 1;
 
     @Nullable
@@ -49,9 +42,14 @@ public class GirlsFragment extends Fragment implements IGirlsView {
         View view = inflater.inflate(R.layout.fragment_girls, container, false);
         ButterKnife.bind(this, view);
 
-        mProgressDialog = new ProgressDialog(getContext());
-        mGirlsPresenter = new GirlsPresenterImpl(this);
         getGankGirlsData();
+
+        mGankGirlsAdapter = new GankGirlsDataAdapter(getContext());
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mGankGirlsAdapter);
+
+        loadMore();
 
         return view;
     }
@@ -74,74 +72,37 @@ public class GirlsFragment extends Fragment implements IGirlsView {
 
     @Override
     public void getGankGirlsData() {
-        KLog.e(mCurrentIndex);
-        mGirlsPresenter.setUrl(mCurrentIndex);
+        mProgressDialog = new ProgressDialog(getContext());
+        mGirlsPresenter = new GirlsPresenterImpl(this);
         mGirlsPresenter.reqGrilsGankData(mCurrentIndex);
     }
 
     @Override
     public void setData(final GankGirlsData gankGirlsData) {
-
         if (mCurrentIndex > mLastIndex) {
-            mTempData.addAll(gankGirlsData.getResults());
-            gankGirlsData.setResults(mTempData);
+            mGankGirlsAdapter.addAllWithNotifyItem(gankGirlsData.getResults(), 4 * mCurrentIndex);
+            mLastIndex = mCurrentIndex;
         } else {
-            mTempData = gankGirlsData.getResults();
+            mGankGirlsAdapter.addAll(gankGirlsData.getResults());
+            mGankGirlsAdapter.notifyDataSetChanged();
         }
+    }
 
-//        getRandomHeight(gankGirlsData);
-        KLog.e(gankGirlsData.getResults().size());
-        mRecyclerView.scrollToPosition(gankGirlsData.getResults().size());
-        mGankGirlsAdapter = new BaseRVAdapter<GankGirlsData.ResultsEntity>(gankGirlsData.getResults(), getContext()) {
-            @Override
-            protected int getItemLayoutId(int viewType) {
-                return R.layout.item_girls;
-            }
-
-            @Override
-            protected void onBindDataToView(BaseViewHolder holder, GankGirlsData.ResultsEntity resultsEntity, int position) {
-                if (heights.size() <= position) {
-                    heights.add((int) (100 + Math.random() * 300));
-                }
-                ViewGroup.LayoutParams params = holder.getView(R.id.item_girls_iv).getLayoutParams();
-                params.height = heights.get(position);
-                holder.getView(R.id.item_girls_iv).setLayoutParams(params);
-
-                holder.setImageFromUrl(R.id.item_girls_iv, resultsEntity.getUrl());
-            }
-
-            @Override
-            protected void OnItemClick(int position) {
-                Toast.makeText(mContext, "" + position, Toast.LENGTH_LONG).show();
-            }
-        };
-
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mGankGirlsAdapter);
+    private void loadMore() {
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
+                Toast.makeText(getContext(), "refresh successful", Toast.LENGTH_SHORT).show();
                 mRecyclerView.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                KLog.e();
-
-                mGirlsPresenter.setUrl(++mCurrentIndex);
+                ++mCurrentIndex;
                 getGankGirlsData();
                 mRecyclerView.loadMoreComplete();
-                mGankGirlsAdapter.notifyDataSetChanged();
             }
         });
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
-    }
-
-    private void getRandomHeight(GankGirlsData gankGirlsData) {
-        heights = new ArrayList<>();
-        for (int i = 0; i < gankGirlsData.getResults().size(); i++) {
-            heights.add((int) (200 + Math.random() * 400));
-        }
     }
 }

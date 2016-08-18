@@ -5,9 +5,6 @@ import android.view.View;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.network.Apis;
 import domon.cn.gankio.network.BaseCallback;
@@ -21,8 +18,6 @@ import domon.cn.gankio.view.IGirlsView;
 // TODO: 16-8-12 添加data
 public class GirlsPresenterImpl implements IGirlsPresenter {
     private IGirlsView mIGirlsView;
-    private int mLastIndex = 1;
-    private List<GankGirlsData.ResultsEntity> allGankGirlsDataLists = new ArrayList<>();
     private String reqUrl;
 
     public GirlsPresenterImpl(IGirlsView iGirlsView) {
@@ -33,7 +28,7 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
     public void reqGrilsGankData(final int index) {
 
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
-
+        reqUrl = Apis.GanHuoData + "福利/4/" + index;
 
         okHttpHelper.get(reqUrl, new BaseCallback<GankGirlsData>() {
             @Override
@@ -54,12 +49,6 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
             @Override
             public void onSuccess(Response response, GankGirlsData gankGirlsData) {
                 setProgressBarVisibility(View.GONE);
-//                if (index > mLastIndex) {
-//                    allGankGirlsDataLists.addAll(gankGirlsData.getResults());
-//                    gankGirlsData.setResults(allGankGirlsDataLists);
-//                } else {
-//                    allGankGirlsDataLists = gankGirlsData.getResults();
-//                }
                 mIGirlsView.setData(gankGirlsData);
             }
         });
@@ -68,17 +57,5 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
     @Override
     public void setProgressBarVisibility(int visibility) {
         mIGirlsView.setProgressBarVisibility(visibility);
-    }
-
-    @Override
-    public void saveGrilsGankData() {
-        // TODO: 16-8-15
-
-    }
-
-    @Override
-    public String setUrl(int index) {
-        reqUrl = Apis.GanHuoData + "福利/4/" + index;
-        return reqUrl;
     }
 }

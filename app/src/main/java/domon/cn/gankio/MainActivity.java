@@ -194,4 +194,9 @@ public class MainActivity extends AppCompatActivity {
         return creatFragment(clazz, true);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

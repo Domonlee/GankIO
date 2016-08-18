@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import domon.cn.gankio.R;
@@ -26,6 +27,11 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseRVAdapte
     protected Context mContext;
     protected boolean mAnimateItems = false;
     protected int mLastAnimatedPostion = -1;
+
+    public BaseRVAdapter(Context mContext) {
+        this.mBeans = new ArrayList<>();
+        this.mContext = mContext;
+    }
 
     public BaseRVAdapter(List<T> mBeans, Context mContext) {
         this.mBeans = mBeans;
@@ -99,6 +105,11 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseRVAdapte
 
     public void addAll(List<T> beans) {
         addAll(beans, false);
+    }
+
+    public void addAllWithNotifyItem(List<T> beans, int postion) {
+        mBeans.addAll(beans);
+        notifyItemChanged(postion);
     }
 
     public void addAll(List<T> beans, boolean clearPrevious) {
