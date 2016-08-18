@@ -16,42 +16,42 @@ import domon.cn.gankio.view.IHomeView;
  * Created by Domon on 16-8-11.
  */
 public class HomePresenterImpl implements IHomePresenter {
-
-    private GankContentData mGankContentData;
     private IHomeView iHomeView;
 
     public HomePresenterImpl(IHomeView iHomeView) {
         this.iHomeView = iHomeView;
-        mGankContentData = new GankContentData();
     }
 
     @Override
     public void reqHomeGankData() {
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
 
-        okHttpHelper.get(Apis.GanHuoDataByDay + "2016/08/11", new BaseCallback<GankContentData>() {
-            @Override
-            public void onRequestBefore() {
-                iHomeView.setProgressDialogVisibility(View.VISIBLE);
-            }
+        okHttpHelper.get(Apis.GanHuoDataByDay + "2016/08/18", new BaseCallback<GankContentData>() {
+                    @Override
+                    public void onRequestBefore() {
+                        iHomeView.setProgressDialogVisibility(View.VISIBLE);
+                    }
 
-            @Override
-            public void onFailure(Request request, Exception e) {
+                    @Override
+                    public void onFailure(Request request, Exception e) {
 
-            }
+                    }
 
-            @Override
-            public void onError(Response response, int errorCode, Exception e) {
+                    @Override
+                    public void onError(Response response, int errorCode, Exception e) {
 
-            }
+                    }
 
-            @Override
-            public void onSuccess(Response response, GankContentData gankContentData) {
-                mGankContentData = gankContentData;
-                iHomeView.setData(mGankContentData);
-                iHomeView.setProgressDialogVisibility(View.GONE);
-            }
-        });
+                    @Override
+                    public void onSuccess(Response response, GankContentData gankContentData) {
+                        if (!gankContentData.isError()) {
+                            iHomeView.setProgressDialogVisibility(View.GONE);
+                            iHomeView.setData(gankContentData);
+
+                        }
+                    }
+                }
+        );
 
     }
 }
