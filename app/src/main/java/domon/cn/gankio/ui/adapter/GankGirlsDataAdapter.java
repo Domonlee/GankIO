@@ -1,6 +1,7 @@
 package domon.cn.gankio.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.ViewGroup;
 
 import com.socks.library.KLog;
@@ -10,12 +11,14 @@ import java.util.List;
 
 import domon.cn.gankio.R;
 import domon.cn.gankio.data.GankGirlsData;
+import domon.cn.gankio.ui.activity.ImageViewActivity;
 
 /**
  * Created by Domon on 16-8-18.
  */
 public class GankGirlsDataAdapter extends BaseRVAdapter<GankGirlsData.ResultsEntity> {
     private List<Integer> heights = new ArrayList<>();
+    private List<String> urls = new ArrayList<>();
 
     public GankGirlsDataAdapter(Context mContext) {
         super(mContext);
@@ -31,6 +34,10 @@ public class GankGirlsDataAdapter extends BaseRVAdapter<GankGirlsData.ResultsEnt
         if (heights.size() <= position) {
             heights.add((int) (100 + Math.random() * 300));
         }
+
+        if (urls.size() <= position) {
+            urls.add(position, resultsEntity.getUrl());
+        }
         ViewGroup.LayoutParams params = holder.getView(R.id.item_girls_iv).getLayoutParams();
         params.height = heights.get(position);
         holder.getView(R.id.item_girls_iv).setLayoutParams(params);
@@ -42,5 +49,9 @@ public class GankGirlsDataAdapter extends BaseRVAdapter<GankGirlsData.ResultsEnt
     protected void OnItemClick(int position) {
         super.OnItemClick(position);
         KLog.e(position + "");
+        Intent intent = new Intent();
+        intent.putExtra("url", urls.get(position - 1));
+        intent.setClass(mContext, ImageViewActivity.class);
+        mContext.startActivity(intent);
     }
 }

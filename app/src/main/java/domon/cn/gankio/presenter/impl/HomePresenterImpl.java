@@ -5,7 +5,6 @@ import android.view.View;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -96,7 +95,6 @@ public class HomePresenterImpl implements IHomePresenter {
                 JsonObject jsonObject = jsonParser.parse(string).getAsJsonObject();
 
                 if (jsonObject.get("error").getAsString().equals("false")) {
-                    KLog.e("in");
                     List<String> dateList = new ArrayList<String>();
                     JsonArray list = jsonObject.getAsJsonArray("results");
                     for (int i = 0; i < list.size(); i++) {
