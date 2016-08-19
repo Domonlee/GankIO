@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -27,8 +26,10 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
+import domon.cn.gankio.ui.fragment.CategoryFragment;
 import domon.cn.gankio.ui.fragment.GirlsFragment;
 import domon.cn.gankio.ui.fragment.HomeFragment;
+import domon.cn.gankio.utils.FragmentUtils;
 
 public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
@@ -50,14 +51,14 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         setUpDrawer();
-        getSupportActionBar().setTitle("HelloWorld");
+        getSupportActionBar().setTitle(getString(R.string.app_name));
     }
 
     private void initFragments(Bundle savedInstanceState) {
         mFragmentManager = getSupportFragmentManager();
         mCurrentFragment = (Fragment) mFragmentManager.findFragmentById(R.id.frame_content);
         if (mCurrentFragment == null) {
-            mCurrentFragment = createFragment(HomeFragment.class);
+            mCurrentFragment = FragmentUtils.createFragment(HomeFragment.class);
             mFragmentManager.beginTransaction().add(R.id.frame_content, mCurrentFragment).commit();
         }
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Fragment to = createFragment(clazz);
+        Fragment to = FragmentUtils.createFragment(clazz);
         if (to.isAdded()) {
             mFragmentManager.beginTransaction().hide(mCurrentFragment).show(to).commitAllowingStateLoss();
         } else {
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 clazz = HomeFragment.class;
                 break;
             case 2:
-                Toast.makeText(MainActivity.this, "建设中", Toast.LENGTH_SHORT).show();
+                clazz = CategoryFragment.class;
                 mToolbar.setTitle(getResources().getString(R.string.main_categroy));
                 break;
             case 3:
@@ -165,34 +166,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-    }
-
-    private static Fragment creatFragment(Class<?> clazz, boolean isObtain) {
-        Fragment resultFragment = null;
-        String className = clazz.getName();
-        if (mFragmentList.containsKey(className)) {
-            resultFragment = mFragmentList.get(className);
-        } else {
-            try {
-                resultFragment = (Fragment) Class.forName(className).newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (isObtain) {
-            mFragmentList.put(className, resultFragment);
-        }
-
-        return resultFragment;
-    }
-
-    private static Fragment createFragment(Class<?> clazz) {
-        return creatFragment(clazz, true);
     }
 
     @Override
