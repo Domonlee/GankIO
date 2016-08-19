@@ -5,4 +5,6 @@ package domon.cn.gankio.presenter;
  */
 public interface IHomePresenter {
     void reqHomeGankData();
+
+    void reqDateInfo();
 }
