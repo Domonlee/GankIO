@@ -71,19 +71,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpDrawer() {
-        ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withName("点击登录");
+        ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withName("GankIO");
 
         PrimaryDrawerItem itemHome = new PrimaryDrawerItem()
-                .withIcon(R.mipmap.ic_launcher)
+                .withIcon(R.mipmap.drawer_home_icon)
                 .withName(R.string.main_main);
         PrimaryDrawerItem item2 = new PrimaryDrawerItem()
-                .withIcon(R.mipmap.ic_launcher)
+                .withIcon(R.mipmap.drawer_category_icon)
                 .withName(R.string.main_categroy);
         PrimaryDrawerItem itemGirls = new PrimaryDrawerItem()
-                .withIcon(R.mipmap.ic_launcher)
+                .withIcon(R.mipmap.drawer_girls_icon)
                 .withName(R.string.main_grils);
         PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
-                .withIcon(R.mipmap.ic_launcher)
+                .withIcon(R.mipmap.drawer_about_icon)
                 .withName(R.string.main_about);
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
