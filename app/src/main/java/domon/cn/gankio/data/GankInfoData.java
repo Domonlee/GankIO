@@ -3,7 +3,7 @@ package domon.cn.gankio.data;
 /**
  * Created by Domon on 16-8-10.
  */
-public class GankDateData {
+public class GankInfoData {
 
 
     /**

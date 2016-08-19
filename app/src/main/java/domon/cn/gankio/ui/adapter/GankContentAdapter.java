@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domon.cn.gankio.R;
-import domon.cn.gankio.data.GankDateData;
+import domon.cn.gankio.data.GankInfoData;
 
 /**
  * Created by Domon on 16-8-11.
  */
-public class GankContentAdapter extends BaseRVAdapter<GankDateData> {
+public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
     private String lastType;
     private List<String> urls = new ArrayList<>();
 
@@ -30,23 +30,23 @@ public class GankContentAdapter extends BaseRVAdapter<GankDateData> {
     }
 
     @Override
-    protected void onBindDataToView(BaseViewHolder holder, GankDateData gankDateData, int position) {
+    protected void onBindDataToView(BaseViewHolder holder, GankInfoData gankInfoData, int position) {
         if (position == 0) {
             holder.getView(R.id.item_categroy_tv).setVisibility(View.VISIBLE);
         } else {
-            boolean isNextCategroy = lastType.equals(gankDateData.getType());
+            boolean isNextCategroy = lastType.equals(gankInfoData.getType());
             if (isNextCategroy) {
                 holder.getView(R.id.item_categroy_tv).setVisibility(View.GONE);
             } else {
                 holder.getView(R.id.item_categroy_tv).setVisibility(View.VISIBLE);
             }
         }
-        lastType = gankDateData.getType();
-        holder.setText(R.id.item_categroy_tv, gankDateData.getType());
-        holder.setText(R.id.item_desc_tv, gankDateData.getDesc());
+        lastType = gankInfoData.getType();
+        holder.setText(R.id.item_categroy_tv, gankInfoData.getType());
+        holder.setText(R.id.item_desc_tv, gankInfoData.getDesc());
 
         if (urls.size() <= position) {
-            urls.add(gankDateData.getUrl());
+            urls.add(gankInfoData.getUrl());
         }
     }
 

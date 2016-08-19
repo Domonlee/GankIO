@@ -1,4 +1,4 @@
-package domon.cn.gankio;
+package domon.cn.gankio.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import domon.cn.gankio.R;
 import domon.cn.gankio.ui.fragment.GirlsFragment;
 import domon.cn.gankio.ui.fragment.HomeFragment;
 

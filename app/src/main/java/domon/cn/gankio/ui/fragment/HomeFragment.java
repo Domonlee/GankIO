@@ -17,10 +17,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.data.GankContentData;
-import domon.cn.gankio.data.GankDateData;
+import domon.cn.gankio.data.GankInfoData;
 import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.presenter.impl.HomePresenterImpl;
 import domon.cn.gankio.ui.adapter.GankContentAdapter;
+import domon.cn.gankio.utils.SharedPreferenceUtil;
 import domon.cn.gankio.view.IHomeView;
 
 /**
@@ -34,7 +35,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     private ProgressDialog mPorgressDialog;
     private GankContentAdapter mGankContentAdapter;
 
-    private List<GankDateData> mGankDateDatas;
+    private List<GankInfoData> mGankInfoDatas = new ArrayList<>();
 
     @Nullable
     @Override
@@ -42,55 +43,62 @@ public class HomeFragment extends Fragment implements IHomeView {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
 
-
-        mGankDateDatas = new ArrayList<>();
-
+        initView();
         mPorgressDialog = new ProgressDialog(getContext());
         iHomePresenter = new HomePresenterImpl(this);
-        getToadyGank();
 
-        mGankContentAdapter = new GankContentAdapter(getContext());
-        mRecyclerView.setAdapter(mGankContentAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        getGankDateInfo();
 
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
+    private void initView() {
+        mGankContentAdapter = new GankContentAdapter(getContext());
+        mRecyclerView.setAdapter(mGankContentAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
-
     @Override
     public void getToadyGank() {
         iHomePresenter.reqHomeGankData();
     }
 
     @Override
+    public void getGankDateInfo() {
+        iHomePresenter.reqDateInfo();
+    }
+
+    @Override
     public void setData(GankContentData data) {
         if (data != null) {
             if (data.getResults().getAndroid() != null) {
-                mGankDateDatas.addAll(data.getResults().getAndroid());
+                mGankInfoDatas.addAll(data.getResults().getAndroid());
             }
             if (data.getResults().getiOS() != null) {
-                mGankDateDatas.addAll(data.getResults().getiOS());
+                mGankInfoDatas.addAll(data.getResults().getiOS());
             }
             if (data.getResults().get休息视频() != null) {
-                mGankDateDatas.addAll(data.getResults().get休息视频());
+                mGankInfoDatas.addAll(data.getResults().get休息视频());
             }
             if (data.getResults().get拓展资源() != null) {
-                mGankDateDatas.addAll(data.getResults().get拓展资源());
+                mGankInfoDatas.addAll(data.getResults().get拓展资源());
             }
             if (data.getResults().get瞎推荐() != null) {
-                mGankDateDatas.addAll(data.getResults().get瞎推荐());
+                mGankInfoDatas.addAll(data.getResults().get瞎推荐());
             }
             if (data.getResults().get福利() != null) {
-                mGankDateDatas.addAll(data.getResults().get福利());
+                mGankInfoDatas.addAll(data.getResults().get福利());
             }
         }
 
-        mGankContentAdapter.addAll(mGankDateDatas);
+        mGankContentAdapter.addAll(mGankInfoDatas);
+
+
+    }
+
+    @Override
+    public void setDateInfo(List<String> dates) {
+        SharedPreferenceUtil.setStrListValue("gankDateInfoList", dates);
+        getToadyGank();
     }
 
     @Override
@@ -100,5 +108,11 @@ public class HomeFragment extends Fragment implements IHomeView {
         } else if (visibility == View.VISIBLE) {
             mPorgressDialog.show();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 }

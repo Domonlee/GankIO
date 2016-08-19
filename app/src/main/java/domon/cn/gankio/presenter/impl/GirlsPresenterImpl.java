@@ -28,7 +28,7 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
     public void reqGrilsGankData(final int index) {
 
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
-        reqUrl = Apis.GanHuoData + "福利/4/" + index;
+        reqUrl = Apis.GankAllData + "福利/4/" + index;
 
         okHttpHelper.get(reqUrl, new BaseCallback<GankGirlsData>() {
             @Override
