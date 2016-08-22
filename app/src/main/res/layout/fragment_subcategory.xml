@@ -5,20 +5,9 @@
     android:background="@color/md_pink_50"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/category_rv"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/primary_dark"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/mytv"
-        android:layout_width="match_parent"
-        android:background="@color/md_pink_100"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="222"
-        android:textSize="40sp" />
-
+        android:layout_height="match_parent"
+        android:background="@color/primary_dark" />
 </LinearLayout>
