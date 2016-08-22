@@ -39,6 +39,8 @@ public class CategoryFragment extends Fragment {
 
         mAdapter = new CategoryViewPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
+
+        //联动tablayout&viewpager
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setupWithViewPager(mViewPager);
 
