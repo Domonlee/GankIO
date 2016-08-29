@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentManager = getSupportFragmentManager();
         mCurrentFragment = (Fragment) mFragmentManager.findFragmentById(R.id.frame_content);
         if (mCurrentFragment == null) {
-            mCurrentFragment = FragmentUtils.createFragment(CategoryFragment.class);
+            mCurrentFragment = FragmentUtils.createFragment(HomeFragment.class);
             mFragmentManager.beginTransaction().add(R.id.frame_content, mCurrentFragment).commit();
         }
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
