@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     private IHomePresenter iHomePresenter;
     private ProgressDialog mPorgressDialog;
     private GankContentAdapter mGankContentAdapter;
+    private boolean isCategoryTag = false;
 
     private List<GankInfoData> mGankInfoDatas = new ArrayList<>();
 
@@ -57,6 +58,7 @@ public class HomeFragment extends Fragment implements IHomeView {
         mRecyclerView.setAdapter(mGankContentAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
     @Override
     public void getToadyGank() {
         iHomePresenter.reqHomeGankData();
@@ -71,21 +73,53 @@ public class HomeFragment extends Fragment implements IHomeView {
     public void setData(GankContentData data) {
         if (data != null) {
             if (data.getResults().getAndroid() != null) {
+
+                for (int i = 0; i < data.getResults().getAndroid().size(); i++) {
+                    if (i != 0) {
+                        data.getResults().getAndroid().get(i).setType("sameCategory");
+                    }
+                }
+
                 mGankInfoDatas.addAll(data.getResults().getAndroid());
             }
             if (data.getResults().getiOS() != null) {
+                for (int i = 0; i < data.getResults().getiOS().size(); i++) {
+                    if (i != 0) {
+                        data.getResults().getiOS().get(i).setType("sameCategory");
+                    }
+                }
                 mGankInfoDatas.addAll(data.getResults().getiOS());
             }
             if (data.getResults().get休息视频() != null) {
+                for (int i = 0; i < data.getResults().get休息视频().size(); i++) {
+                    if (i != 0) {
+                        data.getResults().get休息视频().get(i).setType("sameCategory");
+                    }
+                }
                 mGankInfoDatas.addAll(data.getResults().get休息视频());
             }
             if (data.getResults().get拓展资源() != null) {
+                for (int i = 0; i < data.getResults().get拓展资源().size(); i++) {
+                    if (i != 0) {
+                        data.getResults().get拓展资源().get(i).setType("sameCategory");
+                    }
+                }
                 mGankInfoDatas.addAll(data.getResults().get拓展资源());
             }
             if (data.getResults().get瞎推荐() != null) {
+                for (int i = 0; i < data.getResults().get瞎推荐().size(); i++) {
+                    if (i != 0) {
+                        data.getResults().get瞎推荐().get(i).setType("sameCategory");
+                    }
+                }
                 mGankInfoDatas.addAll(data.getResults().get瞎推荐());
             }
             if (data.getResults().get福利() != null) {
+                for (int i = 0; i < data.getResults().get福利().size(); i++) {
+                    if (i != 0) {
+                        data.getResults().get福利().get(i).setType("sameCategory");
+                    }
+                }
                 mGankInfoDatas.addAll(data.getResults().get福利());
             }
         }
@@ -94,6 +128,7 @@ public class HomeFragment extends Fragment implements IHomeView {
 
 
     }
+
 
     @Override
     public void setDateInfo(List<String> dates) {

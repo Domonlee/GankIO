@@ -17,9 +17,7 @@ import domon.cn.gankio.data.GankInfoData;
  * Created by Domon on 16-8-11.
  */
 public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
-    private String lastType;
     private List<String> urls = new ArrayList<>();
-    private boolean isNextCategroy = false;
 
     public GankContentAdapter(Context mContext) {
         super(mContext);
@@ -35,17 +33,19 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
         holder.getView(R.id.item_category_girls_iv).setVisibility(View.GONE);
         holder.getView(R.id.item_desc_tv).setVisibility(View.VISIBLE);
         holder.getView(R.id.item_categroy_tv).setVisibility(View.VISIBLE);
+        holder.getView(R.id.item_categroy_iv).setVisibility(View.VISIBLE);
 
+        if (gankInfoData.getType().equals("sameCategory")) {
+            holder.getView(R.id.item_categroy_tv).setVisibility(View.GONE);
+            holder.getView(R.id.item_categroy_iv).setVisibility(View.GONE);
+        }
 
-        // TODO: 16-8-29 data refresh error
         if (isImage(gankInfoData.getUrl())) {
             holder.getView(R.id.item_category_girls_iv).setVisibility(View.VISIBLE);
             holder.getView(R.id.item_desc_tv).setVisibility(View.GONE);
             holder.setImageFromUrl(R.id.item_category_girls_iv, gankInfoData.getUrl());
         }
 
-//        if (holder.getView(R.id.item_categroy_iv).getVisibility() == View.VISIBLE) {
-//            switch (lastType) {
         switch (gankInfoData.getType()) {
             case "Android":
                 holder.setImage(R.id.item_categroy_iv, R.mipmap.category_android_icon);
@@ -69,31 +69,12 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
                 break;
             default:
                 break;
-            }
-//        }
-
-        if (position == 0) {
-            holder.getView(R.id.item_categroy_tv).setVisibility(View.VISIBLE);
-            holder.getView(R.id.item_categroy_iv).setVisibility(View.VISIBLE);
-        } else {
-            isNextCategroy = lastType.equals(gankInfoData.getType());
-            KLog.e(gankInfoData.getType(), isNextCategroy);
-            if (isNextCategroy) {
-                holder.getView(R.id.item_categroy_tv).setVisibility(View.GONE);
-                holder.getView(R.id.item_categroy_iv).setVisibility(View.GONE);
-            } else {
-                holder.getView(R.id.item_categroy_tv).setVisibility(View.VISIBLE);
-                holder.getView(R.id.item_categroy_iv).setVisibility(View.VISIBLE);
-            }
         }
-
-        lastType = gankInfoData.getType();
 
         holder.setText(R.id.item_categroy_tv, gankInfoData.getType());
         holder.setText(R.id.item_desc_tv, gankInfoData.getDesc());
 
         if (urls.size() <= position) {
-            isNextCategroy = true;
             urls.add(gankInfoData.getUrl());
         }
     }
