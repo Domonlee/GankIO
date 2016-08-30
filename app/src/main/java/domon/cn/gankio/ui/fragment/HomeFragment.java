@@ -34,7 +34,6 @@ public class HomeFragment extends Fragment implements IHomeView {
     private IHomePresenter iHomePresenter;
     private ProgressDialog mPorgressDialog;
     private GankContentAdapter mGankContentAdapter;
-    private boolean isCategoryTag = false;
 
     private List<GankInfoData> mGankInfoDatas = new ArrayList<>();
 
