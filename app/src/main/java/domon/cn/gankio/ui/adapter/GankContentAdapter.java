@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 
-import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import domon.cn.gankio.R;
 import domon.cn.gankio.data.GankInfoData;
+import domon.cn.gankio.ui.activity.ImageViewActivity;
 
 /**
  * Created by Domon on 16-8-11.
@@ -41,7 +40,6 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
         }
 
         if (isImage(gankInfoData.getUrl())) {
-            holder.getView(R.id.item_categroy_tv).setVisibility(View.GONE);
             holder.getView(R.id.item_category_girls_iv).setVisibility(View.VISIBLE);
             holder.getView(R.id.item_desc_tv).setVisibility(View.GONE);
             holder.setImageFromUrl(R.id.item_category_girls_iv, gankInfoData.getUrl());
@@ -85,11 +83,18 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
 
     @Override
     protected void OnItemClick(int position) {
-        Uri uri = Uri.parse(urls.get(position));
-        Intent i = new Intent(Intent.ACTION_VIEW, uri);
-        mContext.startActivity(i);
 
-        KLog.e(position);
+        if (isImage(urls.get(position))) {
+            Intent intent = new Intent();
+            intent.putExtra("url", urls.get(position));
+            intent.setClass(mContext, ImageViewActivity.class);
+            mContext.startActivity(intent);
+        } else {
+            Uri uri = Uri.parse(urls.get(position));
+            Intent i = new Intent(Intent.ACTION_VIEW, uri);
+            mContext.startActivity(i);
+        }
+
     }
 
     private boolean isImage(String url) {
