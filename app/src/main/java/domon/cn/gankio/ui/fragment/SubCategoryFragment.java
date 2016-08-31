@@ -74,13 +74,13 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
         mProgressDialog = new ProgressDialog(mContext);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter = new CategoryDetailAdapter(mContext);
+        mAdapter = new CategoryDetailAdapter(mContext, mType);
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-
+                mRecyclerView.refreshComplete();
             }
 
             @Override

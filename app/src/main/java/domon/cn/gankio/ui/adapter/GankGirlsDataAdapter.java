@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.ViewGroup;
 
-import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +46,6 @@ public class GankGirlsDataAdapter extends BaseRVAdapter<GankGirlsData.ResultsEnt
     @Override
     protected void OnItemClick(int position) {
         super.OnItemClick(position);
-        KLog.e(position + "");
         Intent intent = new Intent();
         intent.putExtra("url", urls.get(position - 1));
         intent.setClass(mContext, ImageViewActivity.class);

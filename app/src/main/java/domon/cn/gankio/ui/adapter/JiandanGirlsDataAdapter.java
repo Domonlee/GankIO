@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.ViewGroup;
 
-import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +28,6 @@ public class JiandanGirlsDataAdapter extends BaseRVAdapter<String> {
 
     @Override
     protected void onBindDataToView(BaseViewHolder holder, String strings, int position) {
-        KLog.e(position);
         if (heights.size() <= position) {
             heights.add((int) (100 + Math.random() * 300));
         }
