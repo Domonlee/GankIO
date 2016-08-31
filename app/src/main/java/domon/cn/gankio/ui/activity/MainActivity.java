@@ -15,7 +15,6 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
@@ -70,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpDrawer() {
-        ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem().withName("GankIO");
-
         PrimaryDrawerItem itemHome = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.drawer_home_icon)
                 .withName(R.string.main_main);
@@ -90,14 +87,16 @@ public class MainActivity extends AppCompatActivity {
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.color.colorAccent)
-                .addProfiles(profileDrawerItem)
+                .withHeightDp(48)
+                .withHeaderBackground(R.color.colorPrimaryDark)
+//                .addProfiles(new ProfileDrawerItem().withName("Domon").withEmail("viplizhao@gmail.com").withIcon(R.mipmap.ic_launcher))
                 .withOnAccountHeaderItemLongClickListener(new AccountHeader.OnAccountHeaderItemLongClickListener() {
                     @Override
                     public boolean onProfileLongClick(View view, IProfile profile, boolean current) {
                         return true;
                     }
-                }).build();
+                })
+                .build();
 
         mDrawer = new DrawerBuilder()
                 .withActivity(this)

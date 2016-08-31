@@ -82,13 +82,21 @@ public class CategoryDetailAdapter extends BaseRVAdapter<GankInfoData> {
     @Override
     protected void OnItemClick(int position) {
         super.OnItemClick(position);
+        //todo
         if (mType == SubCategoryFragment.TYPE_FULI) {
             Intent intent = new Intent();
             intent.putExtra("url", mPostions.get(position - 1));
             intent.setClass(mContext, ImageViewActivity.class);
             mContext.startActivity(intent);
         } else {
-            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mPostions.get(position - 1))));
+            if (mPostions.get(position - 1).endsWith("jpg") || mPostions.get(position - 1).endsWith("png")) {
+                Intent intent = new Intent();
+                intent.putExtra("url", mPostions.get(position - 1));
+                intent.setClass(mContext, ImageViewActivity.class);
+                mContext.startActivity(intent);
+            } else {
+                mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mPostions.get(position - 1))));
+            }
         }
     }
 }
