@@ -41,6 +41,7 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
         }
 
         if (isImage(gankInfoData.getUrl())) {
+            holder.getView(R.id.item_categroy_tv).setVisibility(View.GONE);
             holder.getView(R.id.item_category_girls_iv).setVisibility(View.VISIBLE);
             holder.getView(R.id.item_desc_tv).setVisibility(View.GONE);
             holder.setImageFromUrl(R.id.item_category_girls_iv, gankInfoData.getUrl());
@@ -65,7 +66,10 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
                 holder.setImage(R.id.item_categroy_iv, R.mipmap.category_more_icon);
                 break;
             case "瞎推荐":
-                holder.setImage(R.id.item_categroy_iv, R.mipmap.ic_launcher);
+                holder.setImage(R.id.item_categroy_iv, R.mipmap.category_other_icon);
+                break;
+            case "前端":
+                holder.setImage(R.id.item_categroy_iv, R.mipmap.category_html_icon);
                 break;
             default:
                 break;

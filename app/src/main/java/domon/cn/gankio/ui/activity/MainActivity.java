@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 .withName(R.string.main_grils);
         PrimaryDrawerItem itemJiandan = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.drawer_chiken_icon)
-                .withName(R.string.main_grils);
+                .withName(R.string.main_jiandan);
         PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.drawer_about_icon)
                 .withName(R.string.main_about);
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 clazz = GirlsFragment.class;
                 break;
             case 4:
-                mToolbar.setTitle("妹子图");
+                mToolbar.setTitle(R.string.main_jiandan);
                 clazz = JiandanFragment.class;
                 break;
             default:
