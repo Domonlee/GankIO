@@ -8,6 +8,7 @@
         android:id="@+id/home_rv"
         android:layout_width="match_parent"
         android:background="@color/md_white_1000"
+        android:padding="2dp"
         android:layout_height="0dp"
         android:layout_weight="1">
 

@@ -35,7 +35,7 @@ public class CategoryPresenterImpl implements ICategoryPresenter {
 
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
 
-        mUrl = Apis.GankAllData + Apis.GankCategory[type] + "/10/" + index;
+        mUrl = Apis.GankAllData + Apis.GankCategory[type] + "/15/" + index;
 
         okHttpHelper.get(mUrl, new BaseCallback<String>() {
             @Override
