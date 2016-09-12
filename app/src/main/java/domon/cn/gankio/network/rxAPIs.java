@@ -12,4 +12,7 @@ public interface rxAPIs {
 
     @GET("day/{date}")
     Call<GankContentData> getRxGankInfoData(@Path("date") String date);
+
+    @GET("day/history")
+    Call<String> getRxGankHistoryDate();
 }
