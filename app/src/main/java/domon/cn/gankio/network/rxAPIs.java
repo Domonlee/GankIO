@@ -1,6 +1,7 @@
 package domon.cn.gankio.network;
 
 import domon.cn.gankio.data.GankContentData;
+import domon.cn.gankio.data.GankHistoryData;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -14,5 +15,5 @@ public interface rxAPIs {
     Call<GankContentData> getRxGankInfoData(@Path("date") String date);
 
     @GET("day/history")
-    Call<String> getRxGankHistoryDate();
+    Call<GankHistoryData> getRxGankHistoryDate();
 }

@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.socks.library.KLog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,7 +133,10 @@ public class HomeFragment extends Fragment implements IHomeView {
 
     @Override
     public void setDateInfo(List<String> dates) {
-        SharedPreferenceUtil.setStrListValue("gankDateInfoList", dates);
+        if (dates != null) {
+            KLog.e("setGankDateInfoList");
+            SharedPreferenceUtil.setStrListValue("gankDateInfoList", dates);
+        }
         getToadyGank();
     }
 
