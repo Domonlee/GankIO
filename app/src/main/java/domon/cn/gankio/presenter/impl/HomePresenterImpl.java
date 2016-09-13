@@ -11,8 +11,6 @@ import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.ui.activity.TestActivity;
 import domon.cn.gankio.utils.SharedPreferenceUtil;
 import domon.cn.gankio.view.IHomeView;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,37 +38,41 @@ public class HomePresenterImpl implements IHomePresenter {
 
     @Override
     public void reqHomeGankData() {
+        iHomeView.setProgressDialogVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(TestActivity.GankBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        rxAPIs rxAPIs = retrofit.create(domon.cn.gankio.network.rxAPIs.class);
+        rxAPIs rxAPIs = retrofit.create(rxAPIs.class);
 
-        Call<GankContentData> model = rxAPIs.getRxGankInfoData(getDate());
+        rxAPIs.getRxGankInfoData(getDate())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GankContentData>() {
+                    @Override
+                    public void onCompleted() {
+                        iHomeView.setProgressDialogVisibility(View.GONE);
+                    }
 
-        model.enqueue(new Callback<GankContentData>() {
-            @Override
-            public void onResponse(Call<GankContentData> call, retrofit2.Response<GankContentData> response) {
-                KLog.e("reqHomeGankData");
-                iHomeView.setProgressDialogVisibility(View.VISIBLE);
-                if (response.isSuccessful()) {
-                    iHomeView.setProgressDialogVisibility(View.GONE);
-                    iHomeView.setData(response.body());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        KLog.e(e);
+                        iHomeView.setProgressDialogVisibility(View.GONE);
+                    }
 
-            @Override
-            public void onFailure(Call<GankContentData> call, Throwable t) {
-                KLog.e();
-                iHomeView.setProgressDialogVisibility(View.GONE);
-            }
-        });
+                    @Override
+                    public void onNext(GankContentData gankContentData) {
+                        iHomeView.setData(gankContentData);
+                    }
+                });
     }
 
     @Override
     public void reqDateInfo() {
+        iHomeView.setProgressDialogVisibility(View.VISIBLE);
 
         Retrofit retorfit = new Retrofit.Builder()
                 .baseUrl(TestActivity.GankBaseUrl)
@@ -78,7 +80,7 @@ public class HomePresenterImpl implements IHomePresenter {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        rxAPIs rxAPIs = retorfit.create(domon.cn.gankio.network.rxAPIs.class);
+        rxAPIs rxAPIs = retorfit.create(rxAPIs.class);
 
         rxAPIs.getRxGankHistoryDate()
                 .filter(new Func1<GankHistoryData, Boolean>() {
@@ -94,13 +96,7 @@ public class HomePresenterImpl implements IHomePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<GankHistoryData>() {
                     @Override
-                    public void onStart() {
-                        iHomeView.setProgressDialogVisibility(View.VISIBLE);
-                    }
-
-                    @Override
                     public void onCompleted() {
-                        KLog.e();
                         iHomeView.getToadyGank();
                         iHomeView.setProgressDialogVisibility(View.GONE);
                     }
@@ -113,7 +109,6 @@ public class HomePresenterImpl implements IHomePresenter {
 
                     @Override
                     public void onNext(GankHistoryData gankHistoryData) {
-                        KLog.e("setDate");
                         SharedPreferenceUtil.setStrListValue("gankDateInfoList", gankHistoryData.getResults());
                     }
                 });
