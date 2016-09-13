@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,6 @@ import domon.cn.gankio.data.GankInfoData;
 import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.presenter.impl.HomePresenterImpl;
 import domon.cn.gankio.ui.adapter.GankContentAdapter;
-import domon.cn.gankio.utils.SharedPreferenceUtil;
 import domon.cn.gankio.view.IHomeView;
 
 /**
@@ -126,18 +123,6 @@ public class HomeFragment extends Fragment implements IHomeView {
         }
 
         mGankContentAdapter.addAll(mGankInfoDatas);
-
-
-    }
-
-
-    @Override
-    public void setDateInfo(List<String> dates) {
-        if (dates != null) {
-            KLog.e("setGankDateInfoList");
-            SharedPreferenceUtil.setStrListValue("gankDateInfoList", dates);
-        }
-        getToadyGank();
     }
 
     @Override

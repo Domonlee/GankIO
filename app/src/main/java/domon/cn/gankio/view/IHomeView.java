@@ -1,7 +1,5 @@
 package domon.cn.gankio.view;
 
-import java.util.List;
-
 import domon.cn.gankio.data.GankContentData;
 
 /**
@@ -13,8 +11,6 @@ public interface IHomeView {
     void getGankDateInfo();
 
     void setData(GankContentData data);
-
-    void setDateInfo(List<String> dates);
 
     void setProgressDialogVisibility(int visibility);
 }

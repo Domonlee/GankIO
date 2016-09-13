@@ -5,6 +5,7 @@ import domon.cn.gankio.data.GankHistoryData;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import rx.Observable;
 
 /**
  * Created by Domon on 16-9-9.
@@ -15,5 +16,5 @@ public interface rxAPIs {
     Call<GankContentData> getRxGankInfoData(@Path("date") String date);
 
     @GET("day/history")
-    Call<GankHistoryData> getRxGankHistoryDate();
+    Observable<GankHistoryData> getRxGankHistoryDate();
 }
