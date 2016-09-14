@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
-import domon.cn.gankio.network.Apis;
+import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.ui.adapter.CategoryViewPagerAdapter;
 
 /**
@@ -33,8 +33,8 @@ public class CategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         ButterKnife.bind(this, view);
 
-        for (int i = 0; i < Apis.GankCategory.length; i++) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(Apis.GankCategory[i]));
+        for (int i = 0; i < rxAPIs.GankCategory.length; i++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(rxAPIs.GankCategory[i]));
         }
 
         mAdapter = new CategoryViewPagerAdapter(getChildFragmentManager());

@@ -15,6 +15,7 @@ import domon.cn.gankio.data.GankInfoData;
 import domon.cn.gankio.network.Apis;
 import domon.cn.gankio.network.BaseCallback;
 import domon.cn.gankio.network.OkHttpHelper;
+import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.presenter.ICategoryPresenter;
 import domon.cn.gankio.view.ICategoryView;
 
@@ -35,7 +36,7 @@ public class CategoryPresenterImpl implements ICategoryPresenter {
 
         OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
 
-        mUrl = Apis.GankAllData + Apis.GankCategory[type] + "/15/" + index;
+        mUrl = Apis.GankAllData + rxAPIs.GankCategory[type] + "/15/" + index;
 
         okHttpHelper.get(mUrl, new BaseCallback<String>() {
             @Override

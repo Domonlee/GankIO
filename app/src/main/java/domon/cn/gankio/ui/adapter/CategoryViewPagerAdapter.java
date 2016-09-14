@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import domon.cn.gankio.network.Apis;
+import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.ui.fragment.SubCategoryFragment;
 
 /**
@@ -46,6 +46,6 @@ public class CategoryViewPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public CharSequence getPageTitle(int position) {
-        return Apis.GankCategory[position];
+        return rxAPIs.GankCategory[position];
     }
 }
