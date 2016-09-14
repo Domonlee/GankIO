@@ -5,12 +5,10 @@ import android.view.View;
 import com.socks.library.KLog;
 
 import domon.cn.gankio.data.JiandanGirlsData;
+import domon.cn.gankio.network.RetrofitHttpUtil;
 import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.presenter.IJiandanPresenter;
 import domon.cn.gankio.view.IJiandanView;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -31,15 +29,11 @@ public class JiandanPresenterImpl implements IJiandanPresenter {
     public void reqJiandanGirls(String index, String count) {
         mIJiandanView.setProgressBarVisibility(View.VISIBLE);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(rxAPIs.JianDanBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+        RetrofitHttpUtil retrofit = RetrofitHttpUtil.getInstance();
+        retrofit.setmBaseUrl(RetrofitHttpUtil.JianDanBaseUrl);
 
-        rxAPIs rxAPIs = retrofit.create(rxAPIs.class);
-
-        rxAPIs.getRxJianDanGirlsDate(index, count)
+        retrofit.dataService((rxAPIs.class))
+                .getRxJianDanGirlsDate(index, count)
                 .filter(new Func1<JiandanGirlsData, Boolean>() {
                     @Override
                     public Boolean call(JiandanGirlsData jiandanGirlsData) {

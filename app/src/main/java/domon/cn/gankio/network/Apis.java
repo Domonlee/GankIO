@@ -4,9 +4,6 @@ package domon.cn.gankio.network;
  * Created by Domon on 16-8-10.
  */
 public class Apis {
-    public static String[] GankCategory = new String[]{"all", "福利", "Android", "iOS", "拓展资源", "前端", "瞎推荐", "休息视频"};
-
-
     public static String GankBaseUrl = "http://www.gank.io/api/";
 
     /**
