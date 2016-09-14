@@ -8,7 +8,6 @@ import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankHistoryData;
 import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.presenter.IHomePresenter;
-import domon.cn.gankio.ui.activity.TestActivity;
 import domon.cn.gankio.utils.SharedPreferenceUtil;
 import domon.cn.gankio.view.IHomeView;
 import retrofit2.Retrofit;
@@ -41,7 +40,7 @@ public class HomePresenterImpl implements IHomePresenter {
         iHomeView.setProgressDialogVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TestActivity.GankBaseUrl)
+                .baseUrl(rxAPIs.GankBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
@@ -75,7 +74,7 @@ public class HomePresenterImpl implements IHomePresenter {
         iHomeView.setProgressDialogVisibility(View.VISIBLE);
 
         Retrofit retorfit = new Retrofit.Builder()
-                .baseUrl(TestActivity.GankBaseUrl)
+                .baseUrl(rxAPIs.GankBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();

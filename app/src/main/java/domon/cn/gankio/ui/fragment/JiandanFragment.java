@@ -74,7 +74,7 @@ public class JiandanFragment extends Fragment implements IJiandanView {
     public void getJiandanGirlsData() {
         mProgressDialog = new ProgressDialog(getContext());
         mJiandanPresenter = new JiandanPresenterImpl(this);
-        mJiandanPresenter.reqJiandanGirls(mCurrentIndex);
+        mJiandanPresenter.reqJiandanGirls(mCurrentIndex + "", "10");
     }
 
     @Override
