@@ -86,7 +86,7 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
             @Override
             public void onLoadMore() {
                 mIndex++;
-                mCategoryPresenter.reqCategoryData(mType, mIndex);
+                mCategoryPresenter.reqCategoryData(mType, mIndex + "", "10");
                 mRecyclerView.loadMoreComplete();
             }
         });
@@ -105,7 +105,7 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
     @Override
     public void reqCategoryData(int type) {
         mCategoryPresenter = new CategoryPresenterImpl(this);
-        mCategoryPresenter.reqCategoryData(type, mIndex);
+        mCategoryPresenter.reqCategoryData(type, mIndex + "", "10");
     }
 
     @Override

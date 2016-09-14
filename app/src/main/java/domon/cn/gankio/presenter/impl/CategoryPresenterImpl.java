@@ -2,75 +2,52 @@ package domon.cn.gankio.presenter.impl;
 
 import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.socks.library.KLog;
 
-import java.util.List;
-
-import domon.cn.gankio.data.GankInfoData;
-import domon.cn.gankio.network.Apis;
-import domon.cn.gankio.network.BaseCallback;
-import domon.cn.gankio.network.OkHttpHelper;
+import domon.cn.gankio.data.GankCategoryData;
+import domon.cn.gankio.network.RetrofitHttpUtil;
 import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.presenter.ICategoryPresenter;
 import domon.cn.gankio.view.ICategoryView;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Domon on 16-8-22.
  */
 public class CategoryPresenterImpl implements ICategoryPresenter {
     private ICategoryView mCategoryView;
-    private String mUrl;
 
     public CategoryPresenterImpl(ICategoryView mCategoryView) {
         this.mCategoryView = mCategoryView;
     }
 
-
     @Override
-    public void reqCategoryData(int type, int index) {
+    public void reqCategoryData(int type, String index, String count) {
+        mCategoryView.setProgressDialogVisibility(View.VISIBLE);
 
-        OkHttpHelper okHttpHelper = OkHttpHelper.getInstance();
+        // FIXME: 16-9-14 多次请求
+        RetrofitHttpUtil.getInstance().dataService(rxAPIs.class)
+                .getRxAllGankData(rxAPIs.GankCategory[type], count, index)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GankCategoryData>() {
+                    @Override
+                    public void onCompleted() {
+                        mCategoryView.setProgressDialogVisibility(View.GONE);
+                    }
 
-        mUrl = Apis.GankAllData + rxAPIs.GankCategory[type] + "/15/" + index;
+                    @Override
+                    public void onError(Throwable e) {
+                        KLog.e(e);
+                        mCategoryView.setProgressDialogVisibility(View.GONE);
+                    }
 
-        okHttpHelper.get(mUrl, new BaseCallback<String>() {
-            @Override
-            public void onRequestBefore() {
-                mCategoryView.setProgressDialogVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onError(Response response, int errorCode, Exception e) {
-
-            }
-
-            @Override
-            public void onSuccess(Response response, String string) {
-                JsonParser jsonParser = new JsonParser();
-                JsonObject jsonObject = jsonParser.parse(string).getAsJsonObject();
-
-                if (jsonObject.get("error").getAsString().equals("false")) {
-                    Gson gson = new Gson();
-                    //使用泛型
-                    List<GankInfoData> list = gson.fromJson(jsonObject.get("results"),
-                            new TypeToken<List<GankInfoData>>() {
-                            }.getType());
-                    mCategoryView.setCategoryDate(list);
-                }
-                mCategoryView.setProgressDialogVisibility(View.GONE);
-            }
-        });
-
+                    @Override
+                    public void onNext(GankCategoryData gankCategoryData) {
+                        mCategoryView.setCategoryDate(gankCategoryData.getResults());
+                    }
+                });
     }
 }

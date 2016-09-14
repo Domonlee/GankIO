@@ -3,10 +3,6 @@ package domon.cn.gankio.network;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Domon on 16-9-14.
@@ -66,12 +62,5 @@ public class RetrofitHttpUtil {
         if (mRetrofit == null) {
             initRetrofit();
         }
-    }
-
-    public <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {
-        o.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s);
     }
 }
