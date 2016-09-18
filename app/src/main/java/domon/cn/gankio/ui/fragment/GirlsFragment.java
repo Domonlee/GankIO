@@ -35,6 +35,7 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     private IGirlsPresenter mGirlsPresenter;
     private int mCurrentIndex = 1;
     private int mLastIndex = 1;
+    private int mCount = 10;
 
     @Nullable
     @Override
@@ -74,13 +75,13 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     public void getGankGirlsData() {
         mProgressDialog = new ProgressDialog(getContext());
         mGirlsPresenter = new GirlsPresenterImpl(this);
-        mGirlsPresenter.reqGrilsGankData(mCurrentIndex + "", "10");
+        mGirlsPresenter.reqGrilsGankData(mCurrentIndex + "", mCount + "");
     }
 
     @Override
     public void setData(final GankGirlsData gankGirlsData) {
         if (mCurrentIndex > mLastIndex) {
-            mGankGirlsAdapter.addAllWithNotifyItem(gankGirlsData.getResults(), 4 * mCurrentIndex);
+            mGankGirlsAdapter.addAllWithNotifyItem(gankGirlsData.getResults(), mCount * mCurrentIndex);
             mLastIndex = mCurrentIndex;
         } else {
             mGankGirlsAdapter.addAll(gankGirlsData.getResults());
@@ -92,8 +93,10 @@ public class GirlsFragment extends Fragment implements IGirlsView {
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(getContext(), "refresh successful", Toast.LENGTH_SHORT).show();
+                mCurrentIndex = 1;
+                mGirlsPresenter.reqGrilsGankData(mCurrentIndex + "", "10");
                 mRecyclerView.refreshComplete();
+                Toast.makeText(getContext(), "refresh successful", Toast.LENGTH_SHORT).show();
             }
 
             @Override
