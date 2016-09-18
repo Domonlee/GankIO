@@ -74,7 +74,7 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     public void getGankGirlsData() {
         mProgressDialog = new ProgressDialog(getContext());
         mGirlsPresenter = new GirlsPresenterImpl(this);
-        mGirlsPresenter.reqGrilsGankData(mCurrentIndex);
+        mGirlsPresenter.reqGrilsGankData(mCurrentIndex + "", "10");
     }
 
     @Override
