@@ -9,6 +9,9 @@ import domon.cn.gankio.network.RetrofitHttpUtil;
 import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.presenter.IJiandanPresenter;
 import domon.cn.gankio.view.IJiandanView;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -29,10 +32,13 @@ public class JiandanPresenterImpl implements IJiandanPresenter {
     public void reqJiandanGirls(String index, String count) {
         mIJiandanView.setProgressBarVisibility(View.VISIBLE);
 
-        RetrofitHttpUtil retrofit = RetrofitHttpUtil.getInstance();
-        retrofit.setmBaseUrl(RetrofitHttpUtil.JianDanBaseUrl);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RetrofitHttpUtil.JianDanBaseUrl)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        retrofit.dataService((rxAPIs.class))
+        retrofit.create(rxAPIs.class)
                 .getRxJianDanGirlsDate(index, count)
                 .filter(new Func1<JiandanGirlsData, Boolean>() {
                     @Override

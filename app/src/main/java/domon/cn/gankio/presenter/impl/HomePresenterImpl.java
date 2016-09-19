@@ -7,20 +7,18 @@ import com.socks.library.KLog;
 import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankHistoryData;
 import domon.cn.gankio.network.RetrofitHttpUtil;
-import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.utils.SharedPreferenceUtil;
 import domon.cn.gankio.view.IHomeView;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Domon on 16-8-11.
  */
 public class HomePresenterImpl implements IHomePresenter {
     private IHomeView iHomeView;
+    private Subscriber<GankHistoryData> mHistorySubscriber;
+    private Subscriber<GankContentData> mContentDataSubscriber;
 
     public HomePresenterImpl(IHomeView iHomeView) {
         this.iHomeView = iHomeView;
@@ -37,63 +35,51 @@ public class HomePresenterImpl implements IHomePresenter {
     public void reqHomeGankData() {
         iHomeView.setProgressDialogVisibility(View.VISIBLE);
 
-        RetrofitHttpUtil.getInstance().dataService(rxAPIs.class)
-                .getRxGankInfoData(getDate())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GankContentData>() {
-                    @Override
-                    public void onCompleted() {
-                        iHomeView.setProgressDialogVisibility(View.GONE);
-                    }
+        mContentDataSubscriber = new Subscriber<GankContentData>() {
+            @Override
+            public void onCompleted() {
+                iHomeView.setProgressDialogVisibility(View.GONE);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        KLog.e(e);
-                        iHomeView.setProgressDialogVisibility(View.GONE);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                KLog.e(e);
+                iHomeView.setProgressDialogVisibility(View.GONE);
+            }
 
-                    @Override
-                    public void onNext(GankContentData gankContentData) {
-                        iHomeView.setData(gankContentData);
-                    }
-                });
+            @Override
+            public void onNext(GankContentData gankContentData) {
+                iHomeView.setData(gankContentData);
+            }
+        };
+
+        RetrofitHttpUtil.getInstance().getRxGankInfoData(mContentDataSubscriber,getDate());
     }
 
     @Override
     public void reqDateInfo() {
         iHomeView.setProgressDialogVisibility(View.VISIBLE);
 
-        RetrofitHttpUtil.getInstance().dataService(rxAPIs.class)
-                .getRxGankHistoryDate()
-                .filter(new Func1<GankHistoryData, Boolean>() {
-                    @Override
-                    public Boolean call(GankHistoryData gankHistoryData) {
-                        if (!gankHistoryData.getResults().equals(SharedPreferenceUtil.getStrListValue("gankDateInfoList"))) {
-                            return true;
-                        }
-                        return false;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GankHistoryData>() {
-                    @Override
-                    public void onCompleted() {
-                        iHomeView.getToadyGank();
-                        iHomeView.setProgressDialogVisibility(View.GONE);
-                    }
+        mHistorySubscriber = new Subscriber<GankHistoryData>() {
+            @Override
+            public void onCompleted() {
+                KLog.e();
+                iHomeView.getToadyGank();
+                iHomeView.setProgressDialogVisibility(View.GONE);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        KLog.e(e);
-                        iHomeView.setProgressDialogVisibility(View.GONE);
-                    }
+            @Override
+            public void onError(Throwable e) {
+                KLog.e(e);
+                iHomeView.setProgressDialogVisibility(View.GONE);
+            }
 
-                    @Override
-                    public void onNext(GankHistoryData gankHistoryData) {
-                        SharedPreferenceUtil.setStrListValue("gankDateInfoList", gankHistoryData.getResults());
-                    }
-                });
+            @Override
+            public void onNext(GankHistoryData gankHistoryData) {
+                SharedPreferenceUtil.setStrListValue("gankDateInfoList", gankHistoryData.getResults());
+            }
+        };
+
+        RetrofitHttpUtil.getInstance().getRxGankHistoryDare(mHistorySubscriber);
     }
 }
