@@ -8,8 +8,8 @@ android {
         applicationId "domon.cn.gankio"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 2
-        versionName "1.02"
+        versionCode 4
+        versionName "1.04"
         resConfigs "zh"
 
         multiDexEnabled true
@@ -20,8 +20,13 @@ android {
     }
 
     signingConfigs {
+        debug {
+            storeFile file("domon.keystore")
+            storePassword "lizhao"
+            keyAlias "domon"
+            keyPassword "lizhao"
+        }
 
-        //todo signing
         release {
             storeFile file("domon.keystore")
             storePassword "lizhao"
@@ -36,6 +41,8 @@ android {
             shrinkResources true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
 
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
