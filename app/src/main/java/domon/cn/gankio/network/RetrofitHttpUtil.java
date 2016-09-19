@@ -46,8 +46,11 @@ public class RetrofitHttpUtil {
     }
 
     private RetrofitHttpUtil() {
+        initOKHttp();
+
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(GankBaseUrl)
+                .client(mOKHttpClientBuilder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
