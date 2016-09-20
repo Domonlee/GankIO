@@ -17,6 +17,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.pgyersdk.update.PgyUpdateManager;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this;
 
-//        getIntentData();
+        checkUpdate();
 
         initFragments(savedInstanceState);
         ButterKnife.bind(this);
@@ -54,13 +55,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.app_name));
     }
 
-//    private void getIntentData() {
-//        Intent intent = getIntent();
-//        boolean b = intent.getBooleanExtra("isUpdate",false);
-//        if (b){
-//            String downloadUrl = intent.getStringExtra("updateUrl");
-//        }
-//    }
+    private void checkUpdate() {
+        PgyUpdateManager.register(this);
+    }
 
     private void initFragments(Bundle savedInstanceState) {
         mFragmentManager = getSupportFragmentManager();
@@ -182,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        PgyUpdateManager.unregister();
     }
 
     @Override
