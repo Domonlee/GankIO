@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="domon.cn.gankio">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApp"
@@ -21,5 +22,9 @@
         <activity android:name=".ui.activity.ImageViewActivity" />
         <activity android:name=".ui.activity.MainActivity" />
     </application>
+
+    <meta-data
+        android:name="PGYER_APPID"
+        android:value="94ee3ad741fc156f776791c9adaeaee2"></meta-data>
 
 </manifest>

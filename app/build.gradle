@@ -14,8 +14,8 @@ android {
         applicationId "domon.cn.gankio"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.04"
+        versionCode 6
+        versionName "1.06"
         resConfigs "zh"
 
         multiDexEnabled true
@@ -116,5 +116,6 @@ dependencies {
         transitive = true
     }
 
-    compile ('cn.leancloud.android:avoscloud-sdk:v3.+')
+    compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
+    compile 'com.pgyersdk:sdk:2.4.2'
 }
