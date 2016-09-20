@@ -1,27 +1,25 @@
 package domon.cn.gankio.presenter.impl;
 
-import android.view.View;
-
-import com.socks.library.KLog;
+import android.content.Context;
 
 import domon.cn.gankio.data.GankContentData;
-import domon.cn.gankio.data.GankHistoryData;
 import domon.cn.gankio.network.RetrofitHttpUtil;
 import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.utils.SharedPreferenceUtil;
+import domon.cn.gankio.utils.progress.ProgressSubscriber;
+import domon.cn.gankio.utils.progress.SubscriberOnNextListener;
 import domon.cn.gankio.view.IHomeView;
-import rx.Subscriber;
 
 /**
  * Created by Domon on 16-8-11.
  */
 public class HomePresenterImpl implements IHomePresenter {
     private IHomeView iHomeView;
-    private Subscriber<GankHistoryData> mHistorySubscriber;
-    private Subscriber<GankContentData> mContentDataSubscriber;
+    private Context mContext;
 
-    public HomePresenterImpl(IHomeView iHomeView) {
+    public HomePresenterImpl(IHomeView iHomeView, Context context) {
         this.iHomeView = iHomeView;
+        this.mContext = context;
     }
 
     private String getDate() {
@@ -33,53 +31,12 @@ public class HomePresenterImpl implements IHomePresenter {
 
     @Override
     public void reqHomeGankData() {
-        iHomeView.setProgressDialogVisibility(View.VISIBLE);
-
-        mContentDataSubscriber = new Subscriber<GankContentData>() {
-            @Override
-            public void onCompleted() {
-                iHomeView.setProgressDialogVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                KLog.e(e);
-                iHomeView.setProgressDialogVisibility(View.GONE);
-            }
-
+        ProgressSubscriber<GankContentData> progressSubscriber = new ProgressSubscriber<GankContentData>(new SubscriberOnNextListener<GankContentData>() {
             @Override
             public void onNext(GankContentData gankContentData) {
                 iHomeView.setData(gankContentData);
             }
-        };
-
-        RetrofitHttpUtil.getInstance().getRxGankInfoData(mContentDataSubscriber,getDate());
-    }
-
-    @Override
-    public void reqDateInfo() {
-        iHomeView.setProgressDialogVisibility(View.VISIBLE);
-
-        mHistorySubscriber = new Subscriber<GankHistoryData>() {
-            @Override
-            public void onCompleted() {
-                KLog.e();
-                iHomeView.getToadyGank();
-                iHomeView.setProgressDialogVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                KLog.e(e);
-                iHomeView.setProgressDialogVisibility(View.GONE);
-            }
-
-            @Override
-            public void onNext(GankHistoryData gankHistoryData) {
-                SharedPreferenceUtil.setStrListValue("gankDateInfoList", gankHistoryData.getResults());
-            }
-        };
-
-        RetrofitHttpUtil.getInstance().getRxGankHistoryDare(mHistorySubscriber);
+        }, mContext);
+        RetrofitHttpUtil.getInstance().getRxGankInfoData(progressSubscriber, getDate());
     }
 }

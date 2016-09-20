@@ -8,9 +8,5 @@ import domon.cn.gankio.data.GankContentData;
 public interface IHomeView {
     void getToadyGank();
 
-    void getGankDateInfo();
-
     void setData(GankContentData data);
-
-    void setProgressDialogVisibility(int visibility);
 }

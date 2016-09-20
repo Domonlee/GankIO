@@ -1,6 +1,5 @@
 package domon.cn.gankio.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,7 +30,6 @@ public class HomeFragment extends Fragment implements IHomeView {
     RecyclerView mRecyclerView;
 
     private IHomePresenter iHomePresenter;
-    private ProgressDialog mPorgressDialog;
     private GankContentAdapter mGankContentAdapter;
 
     private List<GankInfoData> mGankInfoDatas = new ArrayList<>();
@@ -43,10 +41,9 @@ public class HomeFragment extends Fragment implements IHomeView {
         ButterKnife.bind(this, view);
 
         initView();
-        mPorgressDialog = new ProgressDialog(getContext());
-        iHomePresenter = new HomePresenterImpl(this);
+        iHomePresenter = new HomePresenterImpl(this, getContext());
 
-        getGankDateInfo();
+        getToadyGank();
 
         return view;
     }
@@ -60,11 +57,6 @@ public class HomeFragment extends Fragment implements IHomeView {
     @Override
     public void getToadyGank() {
         iHomePresenter.reqHomeGankData();
-    }
-
-    @Override
-    public void getGankDateInfo() {
-        iHomePresenter.reqDateInfo();
     }
 
     @Override
@@ -123,15 +115,6 @@ public class HomeFragment extends Fragment implements IHomeView {
         }
 
         mGankContentAdapter.addAll(mGankInfoDatas);
-    }
-
-    @Override
-    public void setProgressDialogVisibility(int visibility) {
-        if (visibility == View.GONE) {
-            mPorgressDialog.dismiss();
-        } else if (visibility == View.VISIBLE) {
-            mPorgressDialog.show();
-        }
     }
 
     @Override
