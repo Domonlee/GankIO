@@ -44,12 +44,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mContext = this;
+
+//        getIntentData();
+
         initFragments(savedInstanceState);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         setUpDrawer();
         getSupportActionBar().setTitle(getString(R.string.app_name));
     }
+
+//    private void getIntentData() {
+//        Intent intent = getIntent();
+//        boolean b = intent.getBooleanExtra("isUpdate",false);
+//        if (b){
+//            String downloadUrl = intent.getStringExtra("updateUrl");
+//        }
+//    }
 
     private void initFragments(Bundle savedInstanceState) {
         mFragmentManager = getSupportFragmentManager();
