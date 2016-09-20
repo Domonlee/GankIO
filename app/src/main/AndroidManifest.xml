@@ -21,10 +21,10 @@
         </activity>
         <activity android:name=".ui.activity.ImageViewActivity" />
         <activity android:name=".ui.activity.MainActivity" />
-    </application>
 
-    <meta-data
-        android:name="PGYER_APPID"
-        android:value="94ee3ad741fc156f776791c9adaeaee2"></meta-data>
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="94ee3ad741fc156f776791c9adaeaee2"></meta-data>
+    </application>
 
 </manifest>
