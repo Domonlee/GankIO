@@ -1,7 +1,6 @@
 package domon.cn.gankio.ui.fragment;
 
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,7 +40,6 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
     XRecyclerView mRecyclerView;
 
     private Context mContext;
-    private ProgressDialog mProgressDialog;
     private ICategoryPresenter mCategoryPresenter;
     private CategoryDetailAdapter mAdapter;
     private int mType = 1;
@@ -71,7 +69,6 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
         ButterKnife.bind(this, view);
 
         mContext = getContext();
-        mProgressDialog = new ProgressDialog(mContext);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new CategoryDetailAdapter(mContext, mType);
@@ -104,17 +101,8 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
 
     @Override
     public void reqCategoryData(int type) {
-        mCategoryPresenter = new CategoryPresenterImpl(this);
+        mCategoryPresenter = new CategoryPresenterImpl(this, getContext());
         mCategoryPresenter.reqCategoryData(type, mIndex + "", "10");
-    }
-
-    @Override
-    public void setProgressDialogVisibility(int visibility) {
-        if (visibility == View.GONE) {
-            mProgressDialog.dismiss();
-        } else if (visibility == View.VISIBLE) {
-            mProgressDialog.show();
-        }
     }
 
     @Override

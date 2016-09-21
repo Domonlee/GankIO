@@ -11,7 +11,5 @@ public interface ICategoryView {
 
     void reqCategoryData(int type);
 
-    void setProgressDialogVisibility(int visibility);
-
     void setCategoryDate(List<GankInfoData> gankInfoDatas);
 }

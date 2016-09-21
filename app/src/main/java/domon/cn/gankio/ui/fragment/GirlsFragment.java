@@ -1,6 +1,5 @@
 package domon.cn.gankio.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,7 +30,6 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     XRecyclerView mRecyclerView;
 
     private GankGirlsDataAdapter mGankGirlsAdapter;
-    private ProgressDialog mProgressDialog;
     private IGirlsPresenter mGirlsPresenter;
     private int mCurrentIndex = 1;
     private int mLastIndex = 1;
@@ -62,19 +60,8 @@ public class GirlsFragment extends Fragment implements IGirlsView {
     }
 
     @Override
-    public void setProgressBarVisibility(int visibility) {
-        if (visibility == View.VISIBLE) {
-            mProgressDialog.show();
-
-        } else if (visibility == View.GONE) {
-            mProgressDialog.dismiss();
-        }
-    }
-
-    @Override
     public void getGankGirlsData() {
-        mProgressDialog = new ProgressDialog(getContext());
-        mGirlsPresenter = new GirlsPresenterImpl(this);
+        mGirlsPresenter = new GirlsPresenterImpl(this,getContext());
         mGirlsPresenter.reqGrilsGankData(mCurrentIndex + "", mCount + "");
     }
 

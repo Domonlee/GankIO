@@ -31,7 +31,7 @@ public class HomePresenterImpl implements IHomePresenter {
 
     @Override
     public void reqHomeGankData() {
-        ProgressSubscriber<GankContentData> progressSubscriber = new ProgressSubscriber<GankContentData>(new SubscriberOnNextListener<GankContentData>() {
+        ProgressSubscriber<GankContentData> progressSubscriber = new ProgressSubscriber<>(new SubscriberOnNextListener<GankContentData>() {
             @Override
             public void onNext(GankContentData gankContentData) {
                 iHomeView.setData(gankContentData);

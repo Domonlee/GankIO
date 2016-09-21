@@ -2,7 +2,9 @@ package domon.cn.gankio.network;
 
 import java.util.concurrent.TimeUnit;
 
+import domon.cn.gankio.data.GankCategoryData;
 import domon.cn.gankio.data.GankContentData;
+import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.data.GankHistoryData;
 import domon.cn.gankio.utils.SharedPreferenceUtil;
 import okhttp3.OkHttpClient;
@@ -75,6 +77,16 @@ public class RetrofitHttpUtil {
     public void getRxGankInfoData(Subscriber<GankContentData> subscriber, String date) {
         Observable observable = rxAPIs.getRxGankInfoData(date);
         toSubscribe(observable, subscriber);
+    }
+
+    public void getRxGankGrilsData(Subscriber<GankGirlsData> subscriber,String count,String index){
+        Observable observable = rxAPIs.getRxAllGankGirlData(count,index);
+        toSubscribe(observable,subscriber);
+    }
+
+    public void getRxGankCategoryData(Subscriber<GankCategoryData> subscriber,String type,String count,String index){
+        Observable observable = rxAPIs.getRxAllGankData(type,count,index);
+        toSubscribe(observable,subscriber);
     }
 
     private <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {

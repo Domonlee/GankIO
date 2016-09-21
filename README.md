@@ -8,6 +8,7 @@
 * okHttp
 * EventBus
 * Butterknife
+* RxJava&Retrofit
 
 ------
 # Version Log:

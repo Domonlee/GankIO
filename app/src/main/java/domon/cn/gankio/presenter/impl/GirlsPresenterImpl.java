@@ -1,53 +1,35 @@
 package domon.cn.gankio.presenter.impl;
 
-import android.view.View;
-
-import com.socks.library.KLog;
+import android.content.Context;
 
 import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.network.RetrofitHttpUtil;
-import domon.cn.gankio.network.rxAPIs;
 import domon.cn.gankio.presenter.IGirlsPresenter;
+import domon.cn.gankio.utils.progress.ProgressSubscriber;
+import domon.cn.gankio.utils.progress.SubscriberOnNextListener;
 import domon.cn.gankio.view.IGirlsView;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Domon on 16-8-12.
  */
 public class GirlsPresenterImpl implements IGirlsPresenter {
     private IGirlsView mIGirlsView;
+    private Context mContext;
 
-    public GirlsPresenterImpl(IGirlsView iGirlsView) {
+    public GirlsPresenterImpl(IGirlsView iGirlsView, Context context) {
         this.mIGirlsView = iGirlsView;
+        this.mContext = context;
     }
 
     @Override
     public void reqGrilsGankData(String index, String count) {
-        mIGirlsView.setProgressBarVisibility(View.VISIBLE);
+        ProgressSubscriber<GankGirlsData> progressSubscriber = new ProgressSubscriber<>(new SubscriberOnNextListener<GankGirlsData>() {
+            @Override
+            public void onNext(GankGirlsData gankGirlsData) {
+                mIGirlsView.setData(gankGirlsData);
+            }
+        }, mContext);
 
-
-        RetrofitHttpUtil.getInstance().dataService(rxAPIs.class)
-                .getRxAllGankGirlData(count, index)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GankGirlsData>() {
-                    @Override
-                    public void onCompleted() {
-                        mIGirlsView.setProgressBarVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mIGirlsView.setProgressBarVisibility(View.GONE);
-                        KLog.e(e);
-                    }
-
-                    @Override
-                    public void onNext(GankGirlsData gankGirlsData) {
-                        mIGirlsView.setData(gankGirlsData);
-                    }
-                });
+        RetrofitHttpUtil.getInstance().getRxGankGrilsData(progressSubscriber, count, index);
     }
 }
