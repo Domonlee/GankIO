@@ -14,8 +14,8 @@ android {
         applicationId "domon.cn.gankio"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 10
-        versionName "1.09"
+        versionCode 12
+        versionName "1.10"
         resConfigs "zh"
 
         multiDexEnabled true
