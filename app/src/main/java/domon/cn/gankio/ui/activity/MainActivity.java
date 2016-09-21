@@ -29,6 +29,7 @@ import domon.cn.gankio.ui.fragment.GirlsFragment;
 import domon.cn.gankio.ui.fragment.HomeFragment;
 import domon.cn.gankio.ui.fragment.JiandanFragment;
 import domon.cn.gankio.utils.FragmentUtils;
+import domon.cn.gankio.utils.SharedPreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
@@ -46,10 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this;
 
+        SharedPreferenceUtil.setIntegerValue("isFirstStart", 1);
         checkUpdate();
+
 
         initFragments(savedInstanceState);
         ButterKnife.bind(this);
+
         setSupportActionBar(mToolbar);
         setUpDrawer();
         getSupportActionBar().setTitle(getString(R.string.app_name));

@@ -94,7 +94,6 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
             Intent i = new Intent(Intent.ACTION_VIEW, uri);
             mContext.startActivity(i);
         }
-
     }
 
     private boolean isImage(String url) {
