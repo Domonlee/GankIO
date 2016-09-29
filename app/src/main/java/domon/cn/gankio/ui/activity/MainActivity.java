@@ -1,6 +1,7 @@
 package domon.cn.gankio.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -172,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
             case 4:
                 mToolbar.setTitle(R.string.main_jiandan);
                 clazz = JiandanFragment.class;
+                break;
+            case 6:
+                startActivity(new Intent(this, TestAcitity.class));
                 break;
             default:
                 break;
