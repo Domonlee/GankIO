@@ -18,23 +18,28 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
-import domon.cn.gankio.presenter.IJiandanPresenter;
+import domon.cn.gankio.contract.JianDanContract;
 import domon.cn.gankio.presenter.impl.JiandanPresenterImpl;
 import domon.cn.gankio.ui.adapter.JiandanGirlsDataAdapter;
-import domon.cn.gankio.view.IJiandanView;
 
 /**
  * Created by Domon on 16-8-12.
  */
-public class JiandanFragment extends Fragment implements IJiandanView {
+public class JiandanFragment extends Fragment implements JianDanContract.View {
     @Bind(R.id.girls_rv)
     XRecyclerView mRecyclerView;
 
     private JiandanGirlsDataAdapter mJiandanGirlsDataAdapter;
     private ProgressDialog mProgressDialog;
-    private IJiandanPresenter mJiandanPresenter;
+    private JianDanContract.Presenter mJiandanPresenter;
     private int mCurrentIndex = 1;
     private int mLastIndex = 1;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mJiandanPresenter.start();
+    }
 
     @Nullable
     @Override
@@ -103,5 +108,12 @@ public class JiandanFragment extends Fragment implements IJiandanView {
             }
         });
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
+    }
+
+    @Override
+    public void setPresenter(JianDanContract.Presenter presenter) {
+        if (presenter != null) {
+            mJiandanPresenter = presenter;
+        }
     }
 }

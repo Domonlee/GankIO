@@ -4,11 +4,10 @@ import android.view.View;
 
 import com.socks.library.KLog;
 
+import domon.cn.gankio.contract.JianDanContract;
 import domon.cn.gankio.data.JiandanGirlsData;
 import domon.cn.gankio.network.RetrofitHttpUtil;
 import domon.cn.gankio.network.rxAPIs;
-import domon.cn.gankio.presenter.IJiandanPresenter;
-import domon.cn.gankio.view.IJiandanView;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,11 +19,11 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Domon on 16-8-30.
  */
-public class JiandanPresenterImpl implements IJiandanPresenter {
+public class JiandanPresenterImpl implements JianDanContract.Presenter {
 
-    private IJiandanView mIJiandanView;
+    private JianDanContract.View mIJiandanView;
 
-    public JiandanPresenterImpl(IJiandanView mIJiandanView) {
+    public JiandanPresenterImpl(JianDanContract.View mIJiandanView) {
         this.mIJiandanView = mIJiandanView;
     }
 
@@ -68,5 +67,10 @@ public class JiandanPresenterImpl implements IJiandanPresenter {
                         mIJiandanView.setData(jiandanGirlsData.getResults());
                     }
                 });
+    }
+
+    @Override
+    public void start() {
+
     }
 }
