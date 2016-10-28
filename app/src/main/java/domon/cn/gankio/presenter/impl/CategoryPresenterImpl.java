@@ -2,22 +2,21 @@ package domon.cn.gankio.presenter.impl;
 
 import android.content.Context;
 
+import domon.cn.gankio.contract.CategoryContract;
 import domon.cn.gankio.data.GankCategoryData;
 import domon.cn.gankio.network.RetrofitHttpUtil;
 import domon.cn.gankio.network.rxAPIs;
-import domon.cn.gankio.presenter.ICategoryPresenter;
 import domon.cn.gankio.utils.progress.ProgressSubscriber;
 import domon.cn.gankio.utils.progress.SubscriberOnNextListener;
-import domon.cn.gankio.view.ICategoryView;
 
 /**
  * Created by Domon on 16-8-22.
  */
-public class CategoryPresenterImpl implements ICategoryPresenter {
-    private ICategoryView mCategoryView;
+public class CategoryPresenterImpl implements CategoryContract.Presenter {
+    private CategoryContract.View mCategoryView;
     private Context mContext;
 
-    public CategoryPresenterImpl(ICategoryView mCategoryView, Context context) {
+    public CategoryPresenterImpl(CategoryContract.View mCategoryView, Context context) {
         this.mCategoryView = mCategoryView;
         this.mContext = context;
     }
@@ -33,5 +32,10 @@ public class CategoryPresenterImpl implements ICategoryPresenter {
                 }, mContext);
 
         RetrofitHttpUtil.getInstance().getRxGankCategoryData(progressSubscriber, rxAPIs.GankCategory[type], count, index);
+    }
+
+    @Override
+    public void start() {
+
     }
 }

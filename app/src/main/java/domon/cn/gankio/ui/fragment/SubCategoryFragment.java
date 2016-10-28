@@ -17,16 +17,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
+import domon.cn.gankio.contract.CategoryContract;
 import domon.cn.gankio.data.GankInfoData;
-import domon.cn.gankio.presenter.ICategoryPresenter;
 import domon.cn.gankio.presenter.impl.CategoryPresenterImpl;
 import domon.cn.gankio.ui.adapter.CategoryDetailAdapter;
-import domon.cn.gankio.view.ICategoryView;
 
 /**
  * Created by Domon on 16-8-21.
  */
-public class SubCategoryFragment extends Fragment implements ICategoryView {
+public class SubCategoryFragment extends Fragment implements CategoryContract.View {
     public static final int TYPE_ALL = 0;
     public static final int TYPE_FULI = 1;
     public static final int TYPE_ANDROID = 2;
@@ -40,7 +39,7 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
     XRecyclerView mRecyclerView;
 
     private Context mContext;
-    private ICategoryPresenter mCategoryPresenter;
+    private CategoryContract.Presenter mCategoryPresenter;
     private CategoryDetailAdapter mAdapter;
     private int mType = 1;
     private int mIndex = 1;
@@ -109,5 +108,10 @@ public class SubCategoryFragment extends Fragment implements ICategoryView {
     public void setCategoryDate(List<GankInfoData> gankInfoDatas) {
         mAdapter.addAll(gankInfoDatas);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setPresenter(CategoryContract.Presenter presenter) {
+
     }
 }
