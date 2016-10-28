@@ -9,30 +9,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.socks.library.KLog;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
+import domon.cn.gankio.contract.HomeContract;
 import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankInfoData;
-import domon.cn.gankio.presenter.IHomePresenter;
 import domon.cn.gankio.presenter.impl.HomePresenterImpl;
 import domon.cn.gankio.ui.adapter.GankContentAdapter;
-import domon.cn.gankio.view.IHomeView;
 
 /**
  * Created by Domon on 16-8-10.
  */
-public class HomeFragment extends Fragment implements IHomeView {
+public class HomeFragment extends Fragment implements HomeContract.View {
     @Bind(R.id.home_rv)
     RecyclerView mRecyclerView;
 
-    private IHomePresenter iHomePresenter;
+    private HomeContract.Presenter iHomePresenter;
     private GankContentAdapter mGankContentAdapter;
 
     private List<GankInfoData> mGankInfoDatas = new ArrayList<>();
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        iHomePresenter.start();
+    }
 
     @Nullable
     @Override
@@ -41,22 +48,24 @@ public class HomeFragment extends Fragment implements IHomeView {
         ButterKnife.bind(this, view);
 
         initView();
-        iHomePresenter = new HomePresenterImpl(this, getContext());
-
-        getToadyGank();
+        iHomePresenter = new HomePresenterImpl(this, getActivity());
 
         return view;
+    }
+
+    @Override
+    public void setPresenter(HomeContract.Presenter presenter) {
+        if (presenter != null) {
+            iHomePresenter = presenter;
+        }
+        //// TODO: 16-10-28 activity must be all P & V
+        KLog.e("presenter is null");
     }
 
     private void initView() {
         mGankContentAdapter = new GankContentAdapter(getContext());
         mRecyclerView.setAdapter(mGankContentAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void getToadyGank() {
-        iHomePresenter.reqHomeGankData();
     }
 
     @Override
@@ -120,6 +129,7 @@ public class HomeFragment extends Fragment implements IHomeView {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mGankContentAdapter.clearAll();
         ButterKnife.unbind(this);
     }
 }
