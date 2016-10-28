@@ -2,21 +2,20 @@ package domon.cn.gankio.presenter.impl;
 
 import android.content.Context;
 
+import domon.cn.gankio.contract.GirlsContract;
 import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.network.RetrofitHttpUtil;
-import domon.cn.gankio.presenter.IGirlsPresenter;
 import domon.cn.gankio.utils.progress.ProgressSubscriber;
 import domon.cn.gankio.utils.progress.SubscriberOnNextListener;
-import domon.cn.gankio.view.IGirlsView;
 
 /**
  * Created by Domon on 16-8-12.
  */
-public class GirlsPresenterImpl implements IGirlsPresenter {
-    private IGirlsView mIGirlsView;
+public class GirlsPresenterImpl implements GirlsContract.Presenter {
+    private GirlsContract.View mIGirlsView;
     private Context mContext;
 
-    public GirlsPresenterImpl(IGirlsView iGirlsView, Context context) {
+    public GirlsPresenterImpl(GirlsContract.View iGirlsView, Context context) {
         this.mIGirlsView = iGirlsView;
         this.mContext = context;
     }
@@ -31,5 +30,10 @@ public class GirlsPresenterImpl implements IGirlsPresenter {
         }, mContext);
 
         RetrofitHttpUtil.getInstance().getRxGankGrilsData(progressSubscriber, count, index);
+    }
+
+    @Override
+    public void start() {
+
     }
 }

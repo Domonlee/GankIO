@@ -16,21 +16,20 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
+import domon.cn.gankio.contract.GirlsContract;
 import domon.cn.gankio.data.GankGirlsData;
-import domon.cn.gankio.presenter.IGirlsPresenter;
 import domon.cn.gankio.presenter.impl.GirlsPresenterImpl;
 import domon.cn.gankio.ui.adapter.GankGirlsDataAdapter;
-import domon.cn.gankio.view.IGirlsView;
 
 /**
  * Created by Domon on 16-8-12.
  */
-public class GirlsFragment extends Fragment implements IGirlsView {
+public class GirlsFragment extends Fragment implements GirlsContract.View {
     @Bind(R.id.girls_rv)
     XRecyclerView mRecyclerView;
 
     private GankGirlsDataAdapter mGankGirlsAdapter;
-    private IGirlsPresenter mGirlsPresenter;
+    private GirlsContract.Presenter mGirlsPresenter;
     private int mCurrentIndex = 1;
     private int mLastIndex = 1;
     private int mCount = 10;
@@ -94,5 +93,11 @@ public class GirlsFragment extends Fragment implements IGirlsView {
             }
         });
         mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
+    }
+
+    @Override
+    public void setPresenter(GirlsContract.Presenter presenter) {
+
+
     }
 }
