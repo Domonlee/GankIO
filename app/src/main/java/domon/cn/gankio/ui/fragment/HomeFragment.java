@@ -20,7 +20,7 @@ import domon.cn.gankio.R;
 import domon.cn.gankio.contract.HomeContract;
 import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankInfoData;
-import domon.cn.gankio.presenter.impl.HomePresenterImpl;
+import domon.cn.gankio.presenter.HomePresenter;
 import domon.cn.gankio.ui.adapter.GankContentAdapter;
 
 /**
@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         ButterKnife.bind(this, view);
 
         initView();
-        iHomePresenter = new HomePresenterImpl(this, getActivity());
+        iHomePresenter = new HomePresenter(this, getActivity());
 
         return view;
     }

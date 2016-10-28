@@ -19,7 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.contract.JianDanContract;
-import domon.cn.gankio.presenter.impl.JiandanPresenterImpl;
+import domon.cn.gankio.presenter.JiandanPresenter;
 import domon.cn.gankio.ui.adapter.JiandanGirlsDataAdapter;
 
 /**
@@ -78,7 +78,7 @@ public class JiandanFragment extends Fragment implements JianDanContract.View {
     @Override
     public void getJiandanGirlsData() {
         mProgressDialog = new ProgressDialog(getContext());
-        mJiandanPresenter = new JiandanPresenterImpl(this);
+        mJiandanPresenter = new JiandanPresenter(this);
         mJiandanPresenter.reqJiandanGirls(mCurrentIndex + "", "10");
     }
 

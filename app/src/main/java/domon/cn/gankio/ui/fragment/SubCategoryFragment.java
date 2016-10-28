@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.contract.CategoryContract;
 import domon.cn.gankio.data.GankInfoData;
-import domon.cn.gankio.presenter.impl.CategoryPresenterImpl;
+import domon.cn.gankio.presenter.CategoryPresenter;
 import domon.cn.gankio.ui.adapter.CategoryDetailAdapter;
 
 /**
@@ -100,7 +100,7 @@ public class SubCategoryFragment extends Fragment implements CategoryContract.Vi
 
     @Override
     public void reqCategoryData(int type) {
-        mCategoryPresenter = new CategoryPresenterImpl(this, getContext());
+        mCategoryPresenter = new CategoryPresenter(this, getContext());
         mCategoryPresenter.reqCategoryData(type, mIndex + "", "10");
     }
 

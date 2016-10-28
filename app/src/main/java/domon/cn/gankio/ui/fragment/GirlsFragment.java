@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.contract.GirlsContract;
 import domon.cn.gankio.data.GankGirlsData;
-import domon.cn.gankio.presenter.impl.GirlsPresenterImpl;
+import domon.cn.gankio.presenter.GirlsPresenter;
 import domon.cn.gankio.ui.adapter.GankGirlsDataAdapter;
 
 /**
@@ -60,7 +60,7 @@ public class GirlsFragment extends Fragment implements GirlsContract.View {
 
     @Override
     public void getGankGirlsData() {
-        mGirlsPresenter = new GirlsPresenterImpl(this,getContext());
+        mGirlsPresenter = new GirlsPresenter(this, getContext());
         mGirlsPresenter.reqGrilsGankData(mCurrentIndex + "", mCount + "");
     }
 
