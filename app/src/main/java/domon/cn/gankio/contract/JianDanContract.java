@@ -14,8 +14,6 @@ public interface JianDanContract {
     interface View extends BaseView<Presenter> {
         void setProgressBarVisibility(int visibility);
 
-        void getJiandanGirlsData();
-
         void setData(List<String> jiandanGirlsData);
     }
 

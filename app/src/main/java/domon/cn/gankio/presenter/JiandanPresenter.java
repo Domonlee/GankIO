@@ -72,6 +72,5 @@ public class JiandanPresenter implements JianDanContract.Presenter {
 
     @Override
     public void start() {
-
     }
 }

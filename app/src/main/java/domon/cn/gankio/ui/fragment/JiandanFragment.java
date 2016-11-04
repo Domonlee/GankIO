@@ -36,9 +36,15 @@ public class JiandanFragment extends Fragment implements JianDanContract.View {
     private int mLastIndex = 1;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mJiandanGirlsDataAdapter = new JiandanGirlsDataAdapter(getContext());
+        mProgressDialog = new ProgressDialog(getContext());
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        mJiandanPresenter.start();
     }
 
     @Nullable
@@ -47,9 +53,9 @@ public class JiandanFragment extends Fragment implements JianDanContract.View {
         View view = inflater.inflate(R.layout.fragment_girls, container, false);
         ButterKnife.bind(this, view);
 
-        getJiandanGirlsData();
+        mJiandanPresenter = new JiandanPresenter(this);
+        mJiandanPresenter.reqJiandanGirls(mCurrentIndex + "", "10");
 
-        mJiandanGirlsDataAdapter = new JiandanGirlsDataAdapter(getContext());
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mJiandanGirlsDataAdapter);
@@ -76,14 +82,8 @@ public class JiandanFragment extends Fragment implements JianDanContract.View {
     }
 
     @Override
-    public void getJiandanGirlsData() {
-        mProgressDialog = new ProgressDialog(getContext());
-        mJiandanPresenter = new JiandanPresenter(this);
-        mJiandanPresenter.reqJiandanGirls(mCurrentIndex + "", "10");
-    }
-
-    @Override
     public void setData(List<String> jiandanGirlsData) {
+
         if (mCurrentIndex > mLastIndex) {
             mJiandanGirlsDataAdapter.addAllWithNotifyItem(jiandanGirlsData, 10 * mCurrentIndex);
             mLastIndex = mCurrentIndex;
@@ -102,8 +102,7 @@ public class JiandanFragment extends Fragment implements JianDanContract.View {
 
             @Override
             public void onLoadMore() {
-                ++mCurrentIndex;
-                getJiandanGirlsData();
+                mJiandanPresenter.reqJiandanGirls(++mCurrentIndex + "", "10");
                 mRecyclerView.loadMoreComplete();
             }
         });

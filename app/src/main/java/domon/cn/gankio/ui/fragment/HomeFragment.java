@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.socks.library.KLog;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +55,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void setPresenter(HomeContract.Presenter presenter) {
         if (presenter != null) {
             iHomePresenter = presenter;
-            KLog.e(presenter);
             return;
         }
-        KLog.e("presenter is null");
     }
 
     private void initView() {
