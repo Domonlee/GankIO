@@ -18,6 +18,8 @@ public class GirlsPresenter implements GirlsContract.Presenter {
     public GirlsPresenter(GirlsContract.View iGirlsView, Context context) {
         this.mIGirlsView = iGirlsView;
         this.mContext = context;
+
+        mIGirlsView.setPresenter(this);
     }
 
     @Override

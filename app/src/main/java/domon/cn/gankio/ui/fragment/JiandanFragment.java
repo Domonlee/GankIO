@@ -114,6 +114,7 @@ public class JiandanFragment extends Fragment implements JianDanContract.View {
     public void setPresenter(JianDanContract.Presenter presenter) {
         if (presenter != null) {
             mJiandanPresenter = presenter;
+            return;
         }
     }
 }

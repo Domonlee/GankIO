@@ -19,6 +19,8 @@ public class CategoryPresenter implements CategoryContract.Presenter {
     public CategoryPresenter(CategoryContract.View mCategoryView, Context context) {
         this.mCategoryView = mCategoryView;
         this.mContext = context;
+
+        mCategoryView.setPresenter(this);
     }
 
     @Override

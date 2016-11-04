@@ -25,6 +25,7 @@ public class JiandanPresenter implements JianDanContract.Presenter {
 
     public JiandanPresenter(JianDanContract.View mIJiandanView) {
         this.mIJiandanView = mIJiandanView;
+        mIJiandanView.setPresenter(this);
     }
 
     @Override

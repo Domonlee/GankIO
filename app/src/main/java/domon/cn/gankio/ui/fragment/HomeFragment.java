@@ -57,8 +57,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void setPresenter(HomeContract.Presenter presenter) {
         if (presenter != null) {
             iHomePresenter = presenter;
+            KLog.e(presenter);
+            return;
         }
-        //// TODO: 16-10-28 activity must be all P & V
         KLog.e("presenter is null");
     }
 

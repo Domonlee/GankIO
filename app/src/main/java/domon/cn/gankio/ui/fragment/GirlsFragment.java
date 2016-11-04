@@ -97,7 +97,8 @@ public class GirlsFragment extends Fragment implements GirlsContract.View {
 
     @Override
     public void setPresenter(GirlsContract.Presenter presenter) {
-
-
+        if (presenter != null) {
+            mGirlsPresenter = presenter;
+        }
     }
 }

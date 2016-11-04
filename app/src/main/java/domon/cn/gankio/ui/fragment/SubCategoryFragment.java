@@ -112,6 +112,9 @@ public class SubCategoryFragment extends Fragment implements CategoryContract.Vi
 
     @Override
     public void setPresenter(CategoryContract.Presenter presenter) {
-
+        if (presenter != null) {
+            mCategoryPresenter = presenter;
+            return;
+        }
     }
 }
