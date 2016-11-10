@@ -111,6 +111,8 @@ dependencies {
     compile 'com.luffykou:android-common-utils:1.1.3'
     compile 'com.github.zhaokaiqiang.klog:library:1.5.0'
 
+    compile 'org.jsoup:jsoup:1.10.1'
+
     //materialdrawer中包含recyclerview design v4 v7
     compile('com.mikepenz:materialdrawer:5.2.6@aar') {
         transitive = true

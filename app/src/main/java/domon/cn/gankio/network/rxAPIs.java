@@ -5,6 +5,8 @@ import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.data.GankHistoryData;
 import domon.cn.gankio.data.JiandanGirlsData;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -47,4 +49,8 @@ public interface rxAPIs {
     Observable<JiandanGirlsData> getRxJianDanGirlsDate(
             @Path("index") String index,
             @Path("count") String count);
+
+    //todo test
+    @GET("meitumeiju?page=1")
+    Call<ResponseBody> test();
 }
