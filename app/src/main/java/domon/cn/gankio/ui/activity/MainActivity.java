@@ -1,7 +1,6 @@
 package domon.cn.gankio.ui.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -100,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeightDp(48)
+                .withHeightDp(200)
+                .withHeaderBackground(R.mipmap.drawer_header)
                 .withHeaderBackground(R.color.colorPrimaryDark)
 //                .addProfiles(new ProfileDrawerItem().withName("Domon").withEmail("viplizhao@gmail.com").withIcon(R.mipmap.ic_launcher))
                 .withOnAccountHeaderItemLongClickListener(new AccountHeader.OnAccountHeaderItemLongClickListener() {
@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 clazz = JiandanFragment.class;
                 break;
             case 6:
-                startActivity(new Intent(this, TestAcitity.class));
                 break;
             default:
                 break;
