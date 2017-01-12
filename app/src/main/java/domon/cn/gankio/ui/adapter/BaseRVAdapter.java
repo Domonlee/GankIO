@@ -95,7 +95,7 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseRVAdapte
 
     @Override
     public int getItemCount() {
-        return mBeans.size();
+        return mBeans == null ? 0 : mBeans.size();
     }
 
     public void add(T bean) {

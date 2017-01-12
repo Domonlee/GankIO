@@ -20,6 +20,7 @@ import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankInfoData;
 import domon.cn.gankio.presenter.HomePresenter;
 import domon.cn.gankio.ui.adapter.GankContentAdapter;
+import domon.cn.gankio.utils.OnLoadMoreListener;
 
 /**
  * Created by Domon on 16-8-10.
@@ -56,9 +57,17 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     private void initView() {
-        mGankContentAdapter = new GankContentAdapter(getContext());
+        mGankContentAdapter = new GankContentAdapter(getContext(),mRecyclerView,mGankInfoDatas);
         mRecyclerView.setAdapter(mGankContentAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mGankContentAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                iHomePresenter.reqHomeGankData();
+            }
+        });
+
     }
 
     @Override
