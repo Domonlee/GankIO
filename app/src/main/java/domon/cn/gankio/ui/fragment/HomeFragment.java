@@ -31,13 +31,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private HomeContract.Presenter iHomePresenter;
     private GankContentAdapter mGankContentAdapter;
 
-    private List<GankInfoData> mGankInfoDatas = new ArrayList<>();
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        iHomePresenter.start();
-    }
+    private List<GankInfoData> mGankInfoDatas;
 
     @Nullable
     @Override
@@ -46,7 +40,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         ButterKnife.bind(this, view);
 
         initView();
+        mGankInfoDatas = new ArrayList<>();
         iHomePresenter = new HomePresenter(this, getActivity());
+        iHomePresenter.start();
 
         return view;
     }
@@ -126,7 +122,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mGankContentAdapter.clearAll();
         ButterKnife.unbind(this);
     }
 }
