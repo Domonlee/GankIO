@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".ui.activity.ImageViewActivity" />
         <activity android:name=".ui.activity.MainActivity" />
+        <activity android:name=".ui.activity.AboutActivity"/>
 
         <meta-data
             android:name="PGYER_APPID"

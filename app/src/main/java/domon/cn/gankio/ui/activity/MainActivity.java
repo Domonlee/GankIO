@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 clazz = JiandanFragment.class;
                 break;
             case 6:
+                AboutActivity.startActivity(mContext);
                 break;
             default:
                 break;
