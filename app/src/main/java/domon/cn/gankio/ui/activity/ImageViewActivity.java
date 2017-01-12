@@ -1,5 +1,6 @@
 package domon.cn.gankio.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +25,12 @@ public class ImageViewActivity extends AppCompatActivity {
     @OnClick(R.id.myIv)
     void onImageViewClice() {
         finish();
+    }
+
+    public static void startActivity(Context context, String url) {
+        Intent intent = new Intent(context,ImageViewActivity.class);
+        intent.putExtra("url", url);
+        context.startActivity(intent);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package domon.cn.gankio.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -46,9 +45,7 @@ public class JiandanGirlsDataAdapter extends BaseRVAdapter<String> {
     @Override
     protected void OnItemClick(int position) {
         super.OnItemClick(position);
-        Intent intent = new Intent();
-        intent.putExtra("url", urls.get(position - 1));
-        intent.setClass(mContext, ImageViewActivity.class);
-        mContext.startActivity(intent);
+
+        ImageViewActivity.startActivity(mContext,urls.get(position - 1));
     }
 }

@@ -83,12 +83,8 @@ public class GankContentAdapter extends BaseRVAdapter<GankInfoData> {
 
     @Override
     protected void OnItemClick(int position) {
-
         if (isImage(urls.get(position))) {
-            Intent intent = new Intent();
-            intent.putExtra("url", urls.get(position));
-            intent.setClass(mContext, ImageViewActivity.class);
-            mContext.startActivity(intent);
+            ImageViewActivity.startActivity(mContext,urls.get(position));
         } else {
             Uri uri = Uri.parse(urls.get(position));
             Intent i = new Intent(Intent.ACTION_VIEW, uri);
