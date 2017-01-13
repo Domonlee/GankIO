@@ -20,7 +20,6 @@ import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankInfoData;
 import domon.cn.gankio.presenter.HomePresenter;
 import domon.cn.gankio.ui.adapter.GankContentAdapter;
-import domon.cn.gankio.utils.OnLoadMoreListener;
 
 /**
  * Created by Domon on 16-8-10.
@@ -33,6 +32,9 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private GankContentAdapter mGankContentAdapter;
 
     private List<GankInfoData> mGankInfoDatas;
+
+    private int mVisibleThreshold = 5;
+    private int mLastVisibleItem, mTotalItemCount;
 
     @Nullable
     @Override
@@ -57,17 +59,24 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     private void initView() {
-        mGankContentAdapter = new GankContentAdapter(getContext(),mRecyclerView,mGankInfoDatas);
+        mGankContentAdapter = new GankContentAdapter(getContext());
         mRecyclerView.setAdapter(mGankContentAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(manager);
 
-        mGankContentAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore() {
-                iHomePresenter.reqHomeGankData();
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                mTotalItemCount = manager.getItemCount();
+                mLastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+
+                if (mTotalItemCount <= (mLastVisibleItem + mVisibleThreshold)) {
+                        iHomePresenter.reqHomeGankData();
+                }
             }
         });
-
     }
 
     @Override
