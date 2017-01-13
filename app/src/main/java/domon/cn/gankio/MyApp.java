@@ -3,8 +3,6 @@ package domon.cn.gankio;
 import android.app.Application;
 import android.content.Context;
 
-import com.avos.avoscloud.AVOSCloud;
-
 import domon.cn.gankio.utils.SharedPreferenceUtil;
 
 /**
@@ -30,8 +28,5 @@ public class MyApp extends Application {
         mContext = getApplicationContext();
 
         SharedPreferenceUtil.initPreference(mContext);
-
-        AVOSCloud.initialize(this,"OpA9Ony5boPXykGEPUUK2h3T-gzGzoHsz","GaCbQI6lhPifuvOGF2MmmTjx");
-        AVOSCloud.useAVCloudCN();
     }
 }
