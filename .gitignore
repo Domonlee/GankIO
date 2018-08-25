@@ -55,3 +55,9 @@ gradle/
 gradlew
 gradlew.bat
 *.iml
+
+.idea/gradle.xml
+
+.idea/misc.xml
+
+.idea/vcs.xml
