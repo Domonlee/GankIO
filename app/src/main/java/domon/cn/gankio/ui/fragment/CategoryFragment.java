@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.network.rxAPIs;
@@ -19,10 +19,10 @@ import domon.cn.gankio.ui.adapter.CategoryViewPagerAdapter;
  * Created by Domon on 16-8-19.
  */
 public class CategoryFragment extends Fragment {
-    @Bind(R.id.category_vp)
+    @BindView(R.id.category_vp)
     ViewPager mViewPager;
 
-    @Bind(R.id.category_tab_layout)
+    @BindView(R.id.category_tab_layout)
     TabLayout mTabLayout;
 
     private CategoryViewPagerAdapter mAdapter;

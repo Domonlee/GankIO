@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.socks.library.KLog;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import domon.cn.gankio.R;
@@ -19,7 +19,7 @@ import domon.cn.gankio.R;
  * Created by Domon on 16-8-19.
  */
 public class ImageViewActivity extends AppCompatActivity {
-    @Bind(R.id.myIv)
+    @BindView(R.id.myIv)
     ImageView imageView;
 
     @OnClick(R.id.myIv)
@@ -49,6 +49,5 @@ public class ImageViewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 }

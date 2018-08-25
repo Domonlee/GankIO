@@ -15,7 +15,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.contract.JianDanContract;
@@ -26,7 +26,7 @@ import domon.cn.gankio.ui.adapter.JiandanGirlsDataAdapter;
  * Created by Domon on 16-8-12.
  */
 public class JiandanFragment extends Fragment implements JianDanContract.View {
-    @Bind(R.id.girls_rv)
+    @BindView(R.id.girls_rv)
     XRecyclerView mRecyclerView;
 
     private JiandanGirlsDataAdapter mJiandanGirlsDataAdapter;
@@ -68,7 +68,6 @@ public class JiandanFragment extends Fragment implements JianDanContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.contract.HomeContract;
@@ -25,7 +25,7 @@ import domon.cn.gankio.ui.adapter.GankContentAdapter;
  * Created by Domon on 16-8-10.
  */
 public class HomeFragment extends Fragment implements HomeContract.View {
-    @Bind(R.id.home_rv)
+    @BindView(R.id.home_rv)
     RecyclerView mRecyclerView;
 
     private HomeContract.Presenter iHomePresenter;
@@ -140,6 +140,5 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 }

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.contract.GirlsContract;
@@ -25,7 +25,7 @@ import domon.cn.gankio.ui.adapter.GankGirlsDataAdapter;
  * Created by Domon on 16-8-12.
  */
 public class GirlsFragment extends Fragment implements GirlsContract.View {
-    @Bind(R.id.girls_rv)
+    @BindView(R.id.girls_rv)
     XRecyclerView mRecyclerView;
 
     private GankGirlsDataAdapter mGankGirlsAdapter;
@@ -55,7 +55,6 @@ public class GirlsFragment extends Fragment implements GirlsContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

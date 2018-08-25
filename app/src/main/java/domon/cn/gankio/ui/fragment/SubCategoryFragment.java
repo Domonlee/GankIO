@@ -14,7 +14,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.contract.CategoryContract;
@@ -35,7 +35,7 @@ public class SubCategoryFragment extends Fragment implements CategoryContract.Vi
     public static final int TYPE_瞎推荐 = 6;
     public static final int TYPE_休息视频 = 7;
 
-    @Bind(R.id.category_rv)
+    @BindView(R.id.category_rv)
     XRecyclerView mRecyclerView;
 
     private Context mContext;
@@ -95,7 +95,6 @@ public class SubCategoryFragment extends Fragment implements CategoryContract.Vi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     @Override

@@ -17,11 +17,10 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.pgyersdk.update.PgyUpdateManager;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.ui.fragment.CategoryFragment;
@@ -32,7 +31,7 @@ import domon.cn.gankio.utils.FragmentUtils;
 import domon.cn.gankio.utils.SharedPreferenceUtil;
 
 public class MainActivity extends AppCompatActivity {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private Drawer mDrawer;
 
@@ -48,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         SharedPreferenceUtil.setIntegerValue("isFirstStart", 1);
-        checkUpdate();
-
 
         initFragments(savedInstanceState);
         ButterKnife.bind(this);
@@ -57,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         setUpDrawer();
         getSupportActionBar().setTitle(getString(R.string.app_name));
-    }
-
-    private void checkUpdate() {
-        PgyUpdateManager.register(this);
     }
 
     private void initFragments(Bundle savedInstanceState) {
@@ -186,8 +179,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
-        PgyUpdateManager.unregister();
     }
 
     @Override

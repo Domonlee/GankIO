@@ -11,7 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import domon.cn.gankio.R;
 import domon.cn.gankio.ui.activity.MainActivity;
@@ -22,7 +22,7 @@ import domon.cn.gankio.utils.SharedPreferenceUtil;
  */
 
 public class SplashFragment extends Fragment {
-    @Bind(R.id.loading_iv)
+    @BindView(R.id.loading_iv)
     ImageView mLoadingIv;
 
     @Nullable
@@ -76,6 +76,5 @@ public class SplashFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 }
