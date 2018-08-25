@@ -4,7 +4,6 @@ import domon.cn.gankio.data.GankCategoryData;
 import domon.cn.gankio.data.GankContentData;
 import domon.cn.gankio.data.GankGirlsData;
 import domon.cn.gankio.data.GankHistoryData;
-import domon.cn.gankio.data.JiandanGirlsData;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -42,11 +41,6 @@ public interface rxAPIs {
 
     @GET("data/福利/{index}/{count}")
     Observable<GankGirlsData> getRxAllGankGirlData(
-            @Path("index") String index,
-            @Path("count") String count);
-
-    @GET("{index}/{count}")
-    Observable<JiandanGirlsData> getRxJianDanGirlsDate(
             @Path("index") String index,
             @Path("count") String count);
 

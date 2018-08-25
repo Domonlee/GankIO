@@ -22,7 +22,6 @@ import rx.schedulers.Schedulers;
  */
 public class RetrofitHttpUtil {
     public static final String GankBaseUrl = "http://www.gank.io/api/";
-    public static final String JianDanBaseUrl = "http://pho.orrindeng.com/pho/getpho/";
     public static final int DEFAULT_TIMEOUT = 5;
 
     private OkHttpClient.Builder mOKHttpClientBuilder;

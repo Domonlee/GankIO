@@ -26,7 +26,6 @@ import domon.cn.gankio.R;
 import domon.cn.gankio.ui.fragment.CategoryFragment;
 import domon.cn.gankio.ui.fragment.GirlsFragment;
 import domon.cn.gankio.ui.fragment.HomeFragment;
-import domon.cn.gankio.ui.fragment.JiandanFragment;
 import domon.cn.gankio.utils.FragmentUtils;
 import domon.cn.gankio.utils.SharedPreferenceUtil;
 
@@ -83,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem itemGirls = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.drawer_girls_icon)
                 .withName(R.string.main_grils);
-        PrimaryDrawerItem itemJiandan = new PrimaryDrawerItem()
-                .withIcon(R.mipmap.drawer_chiken_icon)
-                .withName(R.string.main_jiandan);
         PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.drawer_about_icon)
                 .withName(R.string.main_about);
@@ -112,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                         itemHome,
                         item2,
                         itemGirls,
-                        itemJiandan,
                         new DividerDrawerItem(),
                         itemAbout
                 )
@@ -162,10 +157,6 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 mToolbar.setTitle(getResources().getString(R.string.main_grils));
                 clazz = GirlsFragment.class;
-                break;
-            case 4:
-                mToolbar.setTitle(R.string.main_jiandan);
-                clazz = JiandanFragment.class;
                 break;
             case 6:
                 AboutActivity.startActivity(mContext);
