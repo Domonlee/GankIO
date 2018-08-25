@@ -46,6 +46,6 @@ public class GankGirlsDataAdapter extends BaseRVAdapter<GankGirlsData.ResultsEnt
     protected void OnItemClick(int position) {
         super.OnItemClick(position);
 
-        ImageViewActivity.startActivity(mContext,urls.get(position - 1));
+        ImageViewActivity.Companion.startActivity(mContext,urls.get(position - 1));
     }
 }
