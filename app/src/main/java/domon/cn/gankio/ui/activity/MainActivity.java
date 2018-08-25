@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 .withHeightDp(200)
                 .withHeaderBackground(R.mipmap.drawer_header)
                 .withHeaderBackground(R.color.colorPrimaryDark)
-//                .addProfiles(new ProfileDrawerItem().withName("Domon").withEmail("viplizhao@gmail.com").withIcon(R.mipmap.ic_launcher))
                 .withOnAccountHeaderItemLongClickListener(new AccountHeader.OnAccountHeaderItemLongClickListener() {
                     @Override
                     public boolean onProfileLongClick(View view, IProfile profile, boolean current) {
@@ -158,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
                 mToolbar.setTitle(getResources().getString(R.string.main_grils));
                 clazz = GirlsFragment.class;
                 break;
-            case 6:
-                AboutActivity.startActivity(mContext);
+            case 5:
+                AboutActivity.Companion.startActivity(mContext);
                 break;
             default:
                 break;
