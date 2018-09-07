@@ -82,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem itemGirls = new PrimaryDrawerItem()
                 .withIcon(R.mipmap.drawer_girls_icon)
                 .withName(R.string.main_grils);
-        PrimaryDrawerItem itemAbout = new PrimaryDrawerItem()
-                .withIcon(R.mipmap.drawer_about_icon)
-                .withName(R.string.main_about);
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -108,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         itemHome,
                         item2,
                         itemGirls,
-                        new DividerDrawerItem(),
-                        itemAbout
+                        new DividerDrawerItem()
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -157,9 +153,6 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 mToolbar.setTitle(getResources().getString(R.string.main_grils));
                 clazz = GirlsFragment.class;
-                break;
-            case 6:
-                AboutActivity.startActivity(mContext);
                 break;
             default:
                 break;

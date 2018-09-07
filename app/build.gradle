@@ -10,6 +10,11 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
+    dataBinding{
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "domon.cn.gankio"
         minSdkVersion 14
